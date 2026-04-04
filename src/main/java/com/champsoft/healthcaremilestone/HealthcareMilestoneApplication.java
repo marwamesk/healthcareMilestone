@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HealthcareMilestoneApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HealthcareMilestoneApplication.class, args);
+        SpringApplication.run(HealthcareMilestoneApplication.class,args);
     }
 
 }

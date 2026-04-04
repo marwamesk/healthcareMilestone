@@ -1,4 +1,8 @@
 package com.champsoft.healthcaremilestone.modules.patient.api.dto;
 
-public class PatientResponse {
+public record PatientResponse(
+        String id,
+        String firstName,
+        String lastName
+) {
 }

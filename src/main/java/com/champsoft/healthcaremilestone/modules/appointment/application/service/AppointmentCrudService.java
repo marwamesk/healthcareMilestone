@@ -1,8 +1,5 @@
 package com.champsoft.healthcaremilestone.modules.appointment.application.service;
 
-
-
-
 import com.champsoft.healthcaremilestone.modules.appointment.application.port.out.AppointmentRepositoryPort;
 import com.champsoft.healthcaremilestone.modules.appointment.domain.model.AppointmentId;
 import com.champsoft.healthcaremilestone.modules.appointment.domain.model.*;
