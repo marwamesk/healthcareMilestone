@@ -34,6 +34,10 @@ public class JpaDoctorRepositoryAdapter implements DoctorRepositoryPort {
     public void deleteById(UUID id) {
         repo.deleteById(id);
     }
+    @Override
+    public boolean existsById(UUID id) {
+        return repo.existsById(id);
+    }
 
     // mapping
 

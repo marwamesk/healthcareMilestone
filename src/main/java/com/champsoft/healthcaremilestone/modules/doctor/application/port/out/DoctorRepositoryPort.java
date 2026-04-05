@@ -13,4 +13,6 @@ public interface DoctorRepositoryPort {
     List<Doctor> findAll();
 
     void deleteById(UUID id);
+
+    boolean existsById(UUID id);
 }

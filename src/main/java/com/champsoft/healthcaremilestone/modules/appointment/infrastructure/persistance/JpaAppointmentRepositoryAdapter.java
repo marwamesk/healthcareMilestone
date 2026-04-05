@@ -6,6 +6,7 @@ import com.champsoft.healthcaremilestone.modules.appointment.application.port.ou
 import com.champsoft.healthcaremilestone.modules.appointment.domain.model.*;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,8 +43,9 @@ public class JpaAppointmentRepositoryAdapter implements AppointmentRepositoryPor
     public void deleteById(UUID id) {
         repo.deleteById(id);
     }
-
-    // 🔥 mapping (THIS WAS YOUR MISSING PIECE)
+    public boolean existsOverlapping(UUID doctorId, LocalDateTime start, LocalDateTime end) {
+        return repo.existsOverlappingAppointment(doctorId, start, end);
+    }
 
     private AppointmentJpaEntity toEntity(Appointment a) {
         AppointmentJpaEntity e = new AppointmentJpaEntity();

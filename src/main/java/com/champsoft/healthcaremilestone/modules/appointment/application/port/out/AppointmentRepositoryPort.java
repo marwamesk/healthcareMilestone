@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AppointmentRepositoryPort {
-
+    boolean existsOverlapping(UUID doctorId, java.time.LocalDateTime start, java.time.LocalDateTime end);
     Appointment save(Appointment appointment);
 
     Optional<Appointment> findById(UUID id);
