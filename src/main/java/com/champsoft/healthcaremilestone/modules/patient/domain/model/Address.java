@@ -2,14 +2,16 @@ package com.champsoft.healthcaremilestone.modules.patient.domain.model;
 
 import com.champsoft.healthcaremilestone.modules.patient.domain.exception.InvalidAddressException;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Getter
 public class Address {
-    private final Integer streetNumber;
-    private final String streetName;
-    private final String city;
-    private final String postalCode;
-    private final String Country;
+    private  Integer streetNumber;
+    private  String streetName;
+    private  String city;
+    private  String postalCode;
+    private  String Country;
 
     public Address(Integer streetNumber, String streetName, String city, String postalCode, String country) {
         if(streetNumber == null || streetName.isEmpty() || city.isEmpty() || postalCode.isEmpty() || country.isEmpty())

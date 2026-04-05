@@ -21,4 +21,6 @@ public interface PatientRepositoryPort {
 
     boolean existsById(PatientId patientId);
     boolean existByInsuranceCard(String cardNumber);
+
+
 }

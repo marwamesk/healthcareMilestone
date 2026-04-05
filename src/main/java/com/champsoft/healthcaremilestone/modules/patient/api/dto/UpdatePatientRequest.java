@@ -1,23 +1,18 @@
 package com.champsoft.healthcaremilestone.modules.patient.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 
 public record UpdatePatientRequest(
-        @NotBlank String firstName,
-        @NotBlank String lastName,
-        @NotBlank String phoneNumber,
-        @Email String email,
-        @Past LocalDate dateOfBirth,
+        @NotBlank String id,
         @NotBlank String healthCardNum,
-        @NotBlank  LocalDate expiryDate,
-        @NotBlank Integer streetNumber,
-        @NotBlank String streetName,
-        @NotBlank String city,
-        @NotBlank String postalCode,
-        @NotBlank String Country
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        @NotNull LocalDate expiryDate
+
 ) {
 }

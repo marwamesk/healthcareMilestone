@@ -10,7 +10,8 @@ public class PatientApiMapper {
         return new PatientResponse(
                 p.id().getId(),
                 p.firstName(),
-                p.lastName()
+                p.lastName(),
+                p.status()
         );
     }
 }

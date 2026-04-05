@@ -1,5 +1,6 @@
 package com.champsoft.healthcaremilestone.modules.patient.domain.model;
 
+import com.champsoft.healthcaremilestone.modules.patient.domain.exception.PatientStatusException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,9 +20,9 @@ public class Patient {
     @Getter
     @Setter
     private LocalDate dateOfBirth;
-    private final Health_insuranceCard insuranceCard;
+    private  Health_insuranceCard insuranceCard;
     @Getter
-    private final Address address;
+    private  Address address;
     @Getter
     @Setter
     private PatientStatus status;
@@ -70,7 +71,19 @@ public class Patient {
         this.lastName=lastName;
     }
 
+    public void updateAddress(Address a){
+        this.address=a;
+    }
 
+    public void updateInsuranceCard(Health_insuranceCard card){
+        this.insuranceCard = card;
+    }
 
+    public void changeStatus(PatientStatus newStatus){
+        if(newStatus==status){
+            throw new PatientStatusException("Patient has already the status: " + newStatus);
+        }
+        this.status=newStatus;
+    }
 
 }

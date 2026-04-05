@@ -1,5 +1,9 @@
 package com.champsoft.healthcaremilestone.modules.patient.api;
 
+import com.champsoft.healthcaremilestone.modules.patient.application.exception.DuplicatePatientException;
+import com.champsoft.healthcaremilestone.modules.patient.domain.exception.ExpiredHealthInsuranceCardException;
+import com.champsoft.healthcaremilestone.modules.patient.domain.exception.InvalidAddressException;
+import com.champsoft.healthcaremilestone.modules.patient.domain.exception.InvalidInsuranceCardNumber;
 import com.champsoft.healthcaremilestone.modules.patient.domain.exception.PatientNotFoundException;
 import com.champsoft.healthcaremilestone.shared.config.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +22,11 @@ public class PatientExceptionHandler {
         return build(HttpStatus.NOT_FOUND,ex,req);
     }
 
+    @ExceptionHandler(DuplicatePatientException.class)
+    public ResponseEntity<ApiErrorResponse> conflict(DuplicatePatientException ex, HttpServletRequest req){
+        return build(HttpStatus.CONFLICT,ex,req);
+    }
+
     private ResponseEntity<ApiErrorResponse> build(HttpStatus status, Exception ex, HttpServletRequest req){
         var body = new ApiErrorResponse(
                 Instant.now(),
@@ -28,4 +37,30 @@ public class PatientExceptionHandler {
         );
         return ResponseEntity.status(status).body(body);
     }
+
+    @ExceptionHandler({
+          ExpiredHealthInsuranceCardException.class,
+            InvalidInsuranceCardNumber.class,
+            InvalidAddressException.class,
+            IllegalArgumentException.class
+    })
+    public ResponseEntity<ApiErrorResponse> badRequest(RuntimeException ex, HttpServletRequest req){
+        return build(HttpStatus.BAD_REQUEST,ex,req);
+    }
+
+    //+
+    @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiErrorResponse>
+    badRequest(org.springframework.web.bind.MethodArgumentNotValidException ex,
+               HttpServletRequest req){
+
+        String message = ex.getBindingResult().getFieldErrors().stream()
+                .findFirst()
+                .map(err -> err.getField()+" "+ err.getDefaultMessage()).orElse("Failed");
+        return build(HttpStatus.BAD_REQUEST,new IllegalArgumentException(message),req);
+
+    }
+
+
+
 }

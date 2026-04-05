@@ -3,14 +3,16 @@ package com.champsoft.healthcaremilestone.modules.patient.domain.model;
 import com.champsoft.healthcaremilestone.modules.patient.domain.exception.ExpiredHealthInsuranceCardException;
 import com.champsoft.healthcaremilestone.modules.patient.domain.exception.InvalidInsuranceCardNumber;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 import java.time.LocalDate;
 
+@NoArgsConstructor
 public class Health_insuranceCard {
-    private final String healthCardNum;
+    private  String healthCardNum;
     @Getter
-    private final LocalDate expiryDate;
+    private  LocalDate expiryDate;
 
 
     public Health_insuranceCard(String card, LocalDate expiryDate){

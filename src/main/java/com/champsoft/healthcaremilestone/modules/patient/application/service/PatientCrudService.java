@@ -39,7 +39,33 @@ public class PatientCrudService {
         return repo.findAll();
     }
 
+    //update
+    @Transactional
+    public Patient updatePatientCard(String id,String newCardNum, LocalDate newExpiryDate){
+        var patient = findById(id);
+        patient.updateInsuranceCard(new Health_insuranceCard(newCardNum,newExpiryDate));
+        return repo.save(patient);
+    }
 
+    @Transactional
+    public Patient updateAddress(String id, Integer streetNumber,String streetName, String city, String postalCode, String Country){
+        var patient = findById(id);
+        patient.updateAddress(new Address(streetNumber,streetName,city,postalCode,Country));
+        return repo.save(patient);
+    }
+    @Transactional
+    public void delete(String id){
+        findById(id);
+        repo.deleteById(PatientId.of(id));
+    }
+
+    @Transactional
+    public Patient changeStatus(String id,PatientStatus status){
+        var patient = findById(id);
+        patient.changeStatus(status);
+        return repo.save(patient);
+
+    }
 
 
 }
