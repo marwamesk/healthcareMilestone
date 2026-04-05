@@ -5,7 +5,7 @@ import com.champsoft.healthcaremilestone.modules.patient.domain.exception.Expire
 import com.champsoft.healthcaremilestone.modules.patient.domain.exception.InvalidAddressException;
 import com.champsoft.healthcaremilestone.modules.patient.domain.exception.InvalidInsuranceCardNumber;
 import com.champsoft.healthcaremilestone.modules.patient.domain.exception.PatientNotFoundException;
-import com.champsoft.healthcaremilestone.shared.config.ApiErrorResponse;
+import com.champsoft.healthcaremilestone.shared.web.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
