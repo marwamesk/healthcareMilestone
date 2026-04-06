@@ -1,4 +1,6 @@
 package com.champsoft.healthcaremilestone.modules.billing.infrastructure.persistence;
 
-public interface SpringDataBillingRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SpringDataBillingRepository extends JpaRepository<BillingJpaEntity,String> {
 }
