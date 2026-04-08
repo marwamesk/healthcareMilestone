@@ -1,28 +1,33 @@
 package com.champsoft.healthcaremilestone.modules.billing.domain.model;
 
-import com.champsoft.healthcaremilestone.modules.billing.domain.exception.InvalidInvoiceItemException;
-import com.champsoft.healthcaremilestone.modules.patient.domain.model.Patient;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Billing {
 
-    private BillingId id;
-    private PatientRef patientId;
-    private AppointmentRef appointmentId;
-    private Money totalAmount;
+    private final BillingId id;
+    private final DueDate dueDate;
+    @Setter
     private PaymentMethod paymentMethod;
+    @Setter
     private BillingStatus status;
     private List<InvoiceItem> invoices;
 
-    public Billing(BillingId id, PatientRef patientId, Money totalAmount, AppointmentRef appointmentId, PaymentMethod paymentMethod, BillingStatus status, List<InvoiceItem> invoices) {
+    public Billing(BillingId id,InvoiceItem item1, InvoiceItem item2, DueDate dueDate, PaymentMethod paymentMethod, BillingStatus status) {
         this.id = id;
-        this.patientId = patientId;
-        this.totalAmount = totalAmount;
-        this.appointmentId = appointmentId;
+        this.dueDate=dueDate;
         this.paymentMethod = paymentMethod;
         this.status = status;
-        this.invoices = invoices;
+        this.invoices = new ArrayList<>();
+        this.status=status;
+
+        this.invoices.add(item1);
+
+        if(item2 !=null){
+            this.invoices.add(item2);
+        }
     }
 
 
@@ -30,30 +35,47 @@ public class Billing {
         return id;
     }
 
-    public void setId(BillingId id) {
-        this.id = id;
+    public DueDate dueDate() {
+        return dueDate;
     }
 
-    //+
-    public Money totalAmount() {
-        return totalAmount;
+    public Double totalAmount(List<InvoiceItem> items) {
+        double total =0;
+        for(InvoiceItem item : items ){
+            total += item.getAmountItem();
+        }
+        return total;
     }
 
-    public void setTotalAmount(Money totalAmount) { this.totalAmount = totalAmount; }
 
-    public PaymentMethod paymentMethod() {return paymentMethod;}
+    public PaymentMethod paymentMethod() {
+        return paymentMethod;
+    }
 
-    public void setPaymentMethod(PaymentMethod paymentMethod) {this.paymentMethod = paymentMethod;}
+    public BillingStatus status() {
+        return status;
+    }
 
-    public BillingStatus status() {return status;}
+    public List<InvoiceItem> invoices() {
+        return invoices;
+    }
 
-    public void setStatus(BillingStatus status) {this.status = status;}
+    public void removeInvoice(String description,double amount) {
+        invoices.removeIf(item->
+                item.description().equals(description)&&
+                item.getAmountItem() == amount
+                );
+    }
 
-    public List<InvoiceItem> invoices() {return invoices;}
+    public void updateFirstItem(InvoiceItem item) {
+        invoices.set(0, item);
+    }
 
-    public void setInvoices(List<InvoiceItem> invoices) {
-
-        this.invoices = invoices;
+    public void updateSecondItem(InvoiceItem item) {
+        if (invoices.size() < 2) {
+            throw new IllegalStateException("Second item does not exist");
+        }
+        invoices.set(1, item);
     }
 
 
@@ -73,20 +95,6 @@ public class Billing {
         if(this.status==BillingStatus.REFUNDED)throw new RuntimeException("Billing already refunded");
         this.status=BillingStatus.REFUNDED;
     }
-
-//    public PatientRef patientId() {
-//        return patientId;
-//    }
-//
-//    public void setPatientId(PatientRef patientId) {
-//        this.patientId = patientId;
-//    }
-//
-//    public AppointmentRef appointmentId() {
-//        return appointmentId;
-//    }
-//
-//    public void setAppointmentId(AppointmentRef appointmentId) {this.appointmentId = appointmentId;}
 
 
 }

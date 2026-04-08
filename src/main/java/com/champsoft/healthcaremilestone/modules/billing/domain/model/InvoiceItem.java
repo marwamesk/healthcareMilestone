@@ -5,11 +5,11 @@ import com.champsoft.healthcaremilestone.modules.billing.domain.exception.Invali
 public class InvoiceItem {
 
     private String description;
-    private Money amount;
+    private double amount;
 
-    public InvoiceItem(String description, Money amount) {
+    public InvoiceItem(String description, double amount) {
         if(description.isEmpty()) throw new InvalidInvoiceItemException("Description is required");
-        if(amount == null) throw new InvalidInvoiceItemException("Amount is required");
+        if(amount <=0) throw new InvalidInvoiceItemException("Amount cannot be negative");
         this.description = description;
         this.amount=amount;
     }
@@ -23,11 +23,11 @@ public class InvoiceItem {
         this.description = description;
     }
 
-    public Money getAmountItem() {
+    public double getAmountItem() {
         return amount;
     }
 
-    public void setAmountItem(Money amount) {
+    public void setAmountItem(double amount) {
         this.amount = amount;
     }
 
