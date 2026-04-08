@@ -11,8 +11,8 @@ public class AppointmentApiMapper {
                 a.getId().value(),
                 a.getPatientId(),
                 a.getDoctorId(),
-                a.getTimeSlot().getStart(),
-                a.getTimeSlot().getEnd(),
+                a.getTimeSlot().start(),
+                a.getTimeSlot().end(),
                 a.getStatus().name()
         );
     }

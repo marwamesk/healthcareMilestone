@@ -1,12 +1,18 @@
 package com.champsoft.healthcaremilestone.modules.doctor.infrastructure.persistence;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "doctors")
 public class DoctorJpaEntity {
 
+    // getters & setters
     @Id
     private UUID id;
 
@@ -15,19 +21,4 @@ public class DoctorJpaEntity {
     private String specialty;
     private String status;
 
-    // getters & setters
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
-
-    public String getFirstName() { return firstName; }
-    public void setFirstName(String firstName) { this.firstName = firstName; }
-
-    public String getLastName() { return lastName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
-
-    public String getSpecialty() { return specialty; }
-    public void setSpecialty(String specialty) { this.specialty = specialty; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
 }

@@ -48,6 +48,21 @@ public class AppointmentController {
     public AppointmentResponse getById(@PathVariable UUID id) {
         return AppointmentApiMapper.toResponse(service.getById(id));
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<AppointmentResponse> update(
+            @PathVariable UUID id,
+            @RequestBody @Valid UpdateAppointmentRequest request
+    ) {
+
+        var updated = service.update(
+                id,
+                request.patientId(),
+                request.doctorId(),
+                new TimeSlot(request.startTime(), request.endTime())
+        );
+
+        return ResponseEntity.ok(AppointmentApiMapper.toResponse(updated));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {

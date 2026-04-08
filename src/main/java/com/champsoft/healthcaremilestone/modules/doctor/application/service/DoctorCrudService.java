@@ -1,5 +1,4 @@
 package com.champsoft.healthcaremilestone.modules.doctor.application.service;
-
 import com.champsoft.healthcaremilestone.modules.doctor.application.port.out.DoctorRepositoryPort;
 import com.champsoft.healthcaremilestone.modules.doctor.domain.model.*;
 import org.springframework.stereotype.Service;
@@ -33,6 +32,17 @@ public class DoctorCrudService {
     public Doctor getById(UUID id) {
         return repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
+    }
+    public Doctor update(UUID id, String firstName, String lastName, String specialty) {
+
+        Doctor doctor = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+
+        doctor.setFirstName(firstName);
+        doctor.setLastName(lastName);
+        doctor.setSpecialty(specialty);
+
+        return repo.save(doctor);
     }
 
     public void delete(UUID id) {
