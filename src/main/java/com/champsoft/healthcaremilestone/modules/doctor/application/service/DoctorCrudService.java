@@ -2,10 +2,10 @@ package com.champsoft.healthcaremilestone.modules.doctor.application.service;
 
 import com.champsoft.healthcaremilestone.modules.doctor.application.port.out.DoctorRepositoryPort;
 import com.champsoft.healthcaremilestone.modules.doctor.domain.model.Doctor;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,11 +34,45 @@ public class DoctorCrudService {
                 .orElseThrow(() -> new RuntimeException("Doctor not found: " + id));
     }
 
+    // FIXED: matches controller
     @Transactional
-    public Doctor update(UUID id, Doctor doctor) {
-        if (!repository.existsById(id)) {
-            throw new RuntimeException("Doctor not found: " + id);
+    public Doctor updateInfo(UUID id, String firstName, String lastName, String specialty) {
+
+        Doctor doctor = getById(id);
+
+        doctor.updateInfo(firstName, lastName, specialty);
+
+        return repository.save(doctor);
+    }
+
+    // NEW
+    @Transactional
+    public Doctor updateLicense(UUID id, LocalDate expiryDate) {
+
+        Doctor doctor = getById(id);
+
+        if (expiryDate == null) {
+            throw new RuntimeException("License expiry cannot be null");
         }
+
+        doctor.updateLicense(expiryDate);
+
+        return repository.save(doctor);
+    }
+
+    // ✅ NEW
+    @Transactional
+    public Doctor activate(UUID id) {
+        Doctor doctor = getById(id);
+        doctor.activate();
+        return repository.save(doctor);
+    }
+
+    // ✅ NEW
+    @Transactional
+    public Doctor deactivate(UUID id) {
+        Doctor doctor = getById(id);
+        doctor.deactivate();
         return repository.save(doctor);
     }
 

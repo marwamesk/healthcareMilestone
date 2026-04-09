@@ -4,6 +4,7 @@ import com.champsoft.healthcaremilestone.modules.billing.application.port.out.Bi
 import com.champsoft.healthcaremilestone.modules.billing.domain.exception.InvalidStatusRefund;
 import com.champsoft.healthcaremilestone.modules.billing.domain.model.Billing;
 import com.champsoft.healthcaremilestone.modules.billing.domain.model.BillingId;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +13,7 @@ public class BillingEligibilityService {
 
     private final BillingRepositoryPort repo;
 
-    public BillingEligibilityService(BillingRepositoryPort repo) {
+    public BillingEligibilityService(@Qualifier("jpaBillingRepositoryAdapter")BillingRepositoryPort repo){
         this.repo = repo;
     }
 

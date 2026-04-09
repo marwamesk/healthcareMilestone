@@ -2,15 +2,14 @@ package com.champsoft.healthcaremilestone.modules.doctor.infrastructure.persiste
 
 import com.champsoft.healthcaremilestone.modules.doctor.application.port.out.DoctorRepositoryPort;
 import com.champsoft.healthcaremilestone.modules.doctor.domain.model.Doctor;
-
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Component
+@Repository
 public class JpaDoctorRepositoryAdapter implements DoctorRepositoryPort {
 
     private final DoctorRepository repository;

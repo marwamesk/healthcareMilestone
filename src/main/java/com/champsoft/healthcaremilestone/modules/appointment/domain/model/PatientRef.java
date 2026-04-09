@@ -1,3 +1,3 @@
 package com.champsoft.healthcaremilestone.modules.appointment.domain.model;
 
-public record AppointmentId(String value) {}
+public record PatientRef(String value) {}

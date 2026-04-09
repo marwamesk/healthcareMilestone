@@ -4,6 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record UpdateBillingRequest(
         @NotBlank String description,
-        double amount
+        Double amount
 ) {
 }

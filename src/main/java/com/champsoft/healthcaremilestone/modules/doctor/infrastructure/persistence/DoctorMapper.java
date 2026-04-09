@@ -4,27 +4,36 @@ import com.champsoft.healthcaremilestone.modules.doctor.domain.model.Doctor;
 
 public class DoctorMapper {
 
-    public static Doctor toDomain(DoctorJpaEntity entity) {
-        String fullName = entity.getFirstName() + " " + entity.getLastName();
+    // DOMAIN → ENTITY
+    public static DoctorJpaEntity toEntity(Doctor doctor) {
+        DoctorJpaEntity e = new DoctorJpaEntity();
 
-        return new Doctor(
-                entity.getId(),
-                fullName,
-                entity.getLicenseExpiryDate()
-        );
+        e.setId(doctor.getId());
+        e.setFirstName(doctor.getFirstName());
+        e.setLastName(doctor.getLastName());
+        e.setSpecialty(doctor.getSpecialty());
+        e.setLicenseExpiryDate(doctor.getLicenseExpiryDate());
+        e.setActive(doctor.isActive());
+
+        return e;
     }
 
-    public static DoctorJpaEntity toEntity(Doctor doctor) {
-        DoctorJpaEntity entity = new DoctorJpaEntity();
+    // ENTITY → DOMAIN
+    public static Doctor toDomain(DoctorJpaEntity e) {
 
-        entity.setId(doctor.getId());
+        Doctor doctor = new Doctor(
+                e.getId(),
+                e.getFirstName(),
+                e.getLastName(),
+                e.getSpecialty(),
+                e.getLicenseExpiryDate()
+        );
 
-        String[] parts = doctor.getName().split(" ", 2);
-        entity.setFirstName(parts[0]);
-        entity.setLastName(parts.length > 1 ? parts[1] : "");
+        // restore active state
+        if (!e.isActive()) {
+            doctor.deactivate();
+        }
 
-        entity.setLicenseExpiryDate(doctor.getLicenseExpiryDate());
-
-        return entity;
+        return doctor;
     }
 }

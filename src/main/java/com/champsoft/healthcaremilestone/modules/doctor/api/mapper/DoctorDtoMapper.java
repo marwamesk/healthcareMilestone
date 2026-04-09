@@ -20,7 +20,7 @@ public class DoctorDtoMapper {
     // Map Doctor domain → DoctorResponse DTO
     public static DoctorResponse toResponse(Doctor doctor) {
         // Split full name into first/last
-        String[] parts = doctor.getName().split(" ", 2);
+        String[] parts = doctor.getFirstName().split(" ", 2);
 
         DoctorResponse response = new DoctorResponse();
         response.setId(doctor.getId());

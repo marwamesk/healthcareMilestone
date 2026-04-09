@@ -21,14 +21,14 @@ public class Patient {
     @Getter
     @Setter
     private LocalDate dateOfBirth;
-    private  Health_insuranceCard insuranceCard;
+    private HealthInsuranceCard insuranceCard;
     @Getter
     private  Address address;
     @Getter
     @Setter
     private PatientStatus status;
 
-    public Patient(PatientId id, String firstName, String lastName, String phoneNumber, String email, LocalDate dateOfBirth, Health_insuranceCard insuranceCard, Address address, PatientStatus status) {
+    public Patient(PatientId id, String firstName, String lastName, String phoneNumber, String email, LocalDate dateOfBirth, HealthInsuranceCard insuranceCard, Address address, PatientStatus status) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -56,7 +56,7 @@ public class Patient {
         return lastName;
     }
 
-    public Health_insuranceCard insuranceCard(){
+    public HealthInsuranceCard insuranceCard(){
         return insuranceCard;
     }
 
@@ -76,7 +76,7 @@ public class Patient {
         this.address=a;
     }
 
-    public void updateInsuranceCard(Health_insuranceCard card){
+    public void updateInsuranceCard(HealthInsuranceCard card){
         this.insuranceCard = card;
     }
 

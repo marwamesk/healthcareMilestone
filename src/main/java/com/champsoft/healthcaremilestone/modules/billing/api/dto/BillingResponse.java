@@ -13,6 +13,6 @@ public record BillingResponse(
         PaymentMethod paymentMethod,
         BillingStatus status,
         String description,
-        double amount
+        Double amount
 ) {
 }

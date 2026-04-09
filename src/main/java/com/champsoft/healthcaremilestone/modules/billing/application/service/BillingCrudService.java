@@ -3,6 +3,7 @@ package com.champsoft.healthcaremilestone.modules.billing.application.service;
 import com.champsoft.healthcaremilestone.modules.billing.application.exception.BillingNotFoundException;
 import com.champsoft.healthcaremilestone.modules.billing.application.port.out.BillingRepositoryPort;
 import com.champsoft.healthcaremilestone.modules.billing.domain.model.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,12 +13,13 @@ import java.util.List;
 @Service
 public class BillingCrudService {
 
+
+
     private final BillingRepositoryPort repo;
 
-    public BillingCrudService(BillingRepositoryPort repo) {
-        this.repo = repo;
+    public BillingCrudService(@Qualifier("jpaBillingRepositoryAdapter") BillingRepositoryPort repository) {
+        this.repo = repository;
     }
-
     @Transactional
     public Billing create(String description, double amount, DueDate dueDate, PaymentMethod paymentMethod){
             InvoiceItem item = new InvoiceItem(description,amount);

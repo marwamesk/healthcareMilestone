@@ -1,44 +1,40 @@
 package com.champsoft.healthcaremilestone.modules.appointment.domain.model;
 
-import lombok.Getter;
-
-import java.util.UUID;
-
-@Getter
 public class Appointment {
 
     private final AppointmentId id;
-    private UUID patientId;
-    private UUID doctorId;
-    private TimeSlot timeSlot;
+    private final DoctorRef doctorId;
+    private final PatientRef patientId;
+    private AppointmentTime time;
     private AppointmentStatus status;
 
-    public Appointment(AppointmentId id, UUID patientId, UUID doctorId, TimeSlot timeSlot) {
+    public Appointment(AppointmentId id,
+                       DoctorRef doctorId,
+                       PatientRef patientId,
+                       AppointmentTime time) {
         this.id = id;
-        this.patientId = patientId;
         this.doctorId = doctorId;
-        this.timeSlot = timeSlot;
-        this.status = AppointmentStatus.SCHEDULED; // ✅ FIXED
+        this.patientId = patientId;
+        this.time = time;
+        this.status = AppointmentStatus.SCHEDULED;
     }
 
-    public void cancel() {
-        if (status == AppointmentStatus.COMPLETED) {
-            throw new IllegalStateException("Cannot cancel completed appointment");
-        }
-        this.status = AppointmentStatus.CANCELLED;
-    }
+    public AppointmentId id() { return id; }
+    public DoctorRef doctorId() { return doctorId; }
+    public PatientRef patientId() { return patientId; }
+    public AppointmentTime time() { return time; }
+    public AppointmentStatus status() { return status; }
 
-    public void complete() {
+    public String doctorIdValue() { return doctorId.value(); }
+    public String patientIdValue() { return patientId.value(); }
+    public java.time.LocalDateTime timeValue() { return time.value(); }
+
+    public void complete() { this.status = AppointmentStatus.COMPLETED; }
+    public void cancel() { this.status = AppointmentStatus.CANCELLED; }
+    public void reschedule(AppointmentTime newTime) {
         if (status != AppointmentStatus.SCHEDULED) {
-            throw new IllegalStateException("Only scheduled appointments can be completed");
+            throw new RuntimeException("Only scheduled appointments can be rescheduled");
         }
-        this.status = AppointmentStatus.COMPLETED;
-    }
-
-    public void reschedule(TimeSlot newTimeSlot) {
-        if (status != AppointmentStatus.SCHEDULED) {
-            throw new IllegalStateException("Only scheduled appointments can be rescheduled");
-        }
-        this.timeSlot = newTimeSlot;
+        this.time = newTime;
     }
 }

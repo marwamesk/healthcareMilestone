@@ -1,6 +1,5 @@
 package com.champsoft.healthcaremilestone.modules.patient.application.port.out;
 
-import com.champsoft.healthcaremilestone.modules.patient.domain.model.Health_insuranceCard;
 import com.champsoft.healthcaremilestone.modules.patient.domain.model.Patient;
 import com.champsoft.healthcaremilestone.modules.patient.domain.model.PatientId;
 import org.springframework.stereotype.Repository;

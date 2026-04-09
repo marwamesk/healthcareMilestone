@@ -1,13 +1,13 @@
 package com.champsoft.healthcaremilestone.modules.appointment.api.dto;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-public record AppointmentResponse(
-        UUID id,
-        UUID patientId,
-        UUID doctorId,
-        LocalDateTime startTime,
-        LocalDateTime endTime,
-        String status
-) {}
+public class AppointmentResponse {
+    public String id;
+    public String doctorId;
+    public String patientId;
+    public String status;
+    public LocalDateTime time;
+    public double amount;
+    public String description;
+}

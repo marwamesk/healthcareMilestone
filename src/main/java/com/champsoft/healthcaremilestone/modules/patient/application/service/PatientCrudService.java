@@ -4,6 +4,7 @@ import com.champsoft.healthcaremilestone.modules.patient.application.exception.D
 import com.champsoft.healthcaremilestone.modules.patient.application.port.out.PatientRepositoryPort;
 import com.champsoft.healthcaremilestone.modules.patient.domain.exception.PatientNotFoundException;
 import com.champsoft.healthcaremilestone.modules.patient.domain.model.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +16,13 @@ public class PatientCrudService {
 
     private final PatientRepositoryPort repo;
 
-    public PatientCrudService(PatientRepositoryPort repo){
+    public PatientCrudService(@Qualifier("jpaPatientRepositoryAdapter") PatientRepositoryPort repo){
         this.repo =repo;
     }
 
     @Transactional
-    public Patient create(String firstName, String lastName, String phoneNumber, String email, LocalDate dateOfBirth, Health_insuranceCard insuranceCard, Address address, PatientStatus status){
-        Health_insuranceCard h = new Health_insuranceCard(insuranceCard.insuranceCardNumber(),insuranceCard.getExpiryDate());
+    public Patient create(String firstName, String lastName, String phoneNumber, String email, LocalDate dateOfBirth, HealthInsuranceCard insuranceCard, Address address, PatientStatus status){
+        HealthInsuranceCard h = new HealthInsuranceCard(insuranceCard.insuranceCardNumber(),insuranceCard.getExpiryDate());
         if(repo.existByInsuranceCard(h.insuranceCardNumber())) throw new DuplicatePatientException("Patient already exists");
         Address address1 = new Address(address.getStreetNumber(),address.getStreetName(), address.getCity(),address.getPostalCode(), address.getCountry());
         var patient = new Patient(PatientId.newId(),firstName,lastName,phoneNumber,email,dateOfBirth,insuranceCard,address,status);
@@ -43,7 +44,7 @@ public class PatientCrudService {
     @Transactional
     public Patient updatePatientCard(String id,String newCardNum, LocalDate newExpiryDate){
         var patient = findById(id);
-        patient.updateInsuranceCard(new Health_insuranceCard(newCardNum,newExpiryDate));
+        patient.updateInsuranceCard(new HealthInsuranceCard(newCardNum,newExpiryDate));
         return repo.save(patient);
     }
 

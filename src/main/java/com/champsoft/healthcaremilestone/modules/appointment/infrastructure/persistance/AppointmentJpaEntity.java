@@ -1,28 +1,31 @@
 package com.champsoft.healthcaremilestone.modules.appointment.infrastructure.persistance;
 
+import com.champsoft.healthcaremilestone.modules.appointment.domain.model.AppointmentStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-@Setter
-@Getter
 @Entity
-@Table(name = "appointments")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AppointmentJpaEntity {
 
-    // getters & setters
     @Id
-    private UUID id;
+    private String id;
 
-    private UUID patientId;
-    private UUID doctorId;
+    @Column(nullable = false)
+    private String doctorId;
 
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    @Column(nullable = false)
+    private String patientId;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
 
+    @Column(nullable = false)
+    private LocalDateTime time;
 }

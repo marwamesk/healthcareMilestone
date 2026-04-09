@@ -67,7 +67,7 @@ public class JpaPatientRepositoryAdapter implements PatientRepositoryPort {
     public Patient toDomain(PatientJpaEntity e){
         var d = new Patient(
                 PatientId.of(e.id),e.firstName,e.lastName,e.phoneNumber,e.email,e.dateOfBirth,
-                new Health_insuranceCard(e.insuranceCard.insuranceCardNumber(),e.insuranceCard.getExpiryDate()),
+                new HealthInsuranceCard(e.insuranceCard.insuranceCardNumber(),e.insuranceCard.getExpiryDate()),
                 new Address(e.address.getStreetNumber(), e.address.getStreetName(),e.address.getCity(),e.address.getPostalCode(), e.address.getCountry()),
                 PatientStatus.valueOf(e.status)
                 );
