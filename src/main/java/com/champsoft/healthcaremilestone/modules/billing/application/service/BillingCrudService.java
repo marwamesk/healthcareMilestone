@@ -6,7 +6,7 @@ import com.champsoft.healthcaremilestone.modules.billing.domain.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,11 +19,9 @@ public class BillingCrudService {
     }
 
     @Transactional
-    public Billing create(InvoiceItem item1,InvoiceItem item2, DueDate dueDate, PaymentMethod paymentMethod){
-            List<InvoiceItem> items = new ArrayList<>();
-            items.add(item1);
-            items.add(item2);
-            var bill = new Billing(BillingId.newId(),item1,item2,dueDate,paymentMethod,BillingStatus.PENDING);
+    public Billing create(String description, double amount, DueDate dueDate, PaymentMethod paymentMethod){
+            InvoiceItem item = new InvoiceItem(description,amount);
+            var bill = new Billing(BillingId.newId(),item,dueDate,paymentMethod,BillingStatus.PENDING);
             return repo.save(bill);
     }
 
@@ -35,33 +33,6 @@ public class BillingCrudService {
     @Transactional(readOnly = true)
     public List<Billing> list(){
         return repo.findAll();
-    }
-
-
-    @Transactional
-        public Billing updateFirstItem(String id,InvoiceItem newItem){
-        if (newItem == null) {
-            throw new IllegalArgumentException("Item cannot be null");
-        }
-
-        var billing = getById(id);
-
-        billing.updateFirstItem(newItem);
-
-        return repo.save(billing);
-    }
-
-    @Transactional
-    public Billing updateSecondItem(String id,InvoiceItem newItem){
-        if (newItem == null) {
-            throw new IllegalArgumentException("Item cannot be null");
-        }
-
-        var billing = getById(id);
-
-        billing.updateSecondItem(newItem);
-
-        return repo.save(billing);
     }
 
     @Transactional
@@ -82,6 +53,14 @@ public class BillingCrudService {
     public void delete(String id){
         getById(id);
         repo.deleteById(BillingId.of(id));
+    }
+
+    @Transactional
+    public Billing updateBillingItem(String id,String description,double amount){
+        var billing = getById(id);
+        billing.updateBilling(new InvoiceItem(description,amount));
+
+        return repo.save(billing);
     }
 
 

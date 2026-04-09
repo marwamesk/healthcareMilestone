@@ -17,7 +17,7 @@ public class BillingId {
         return new BillingId(value);
     }
 
-    public static String value(String value){
+    public String value(){
         return value;
     }
 }

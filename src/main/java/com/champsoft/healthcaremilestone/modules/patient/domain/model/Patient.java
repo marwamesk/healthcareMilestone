@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 public class Patient {
 
@@ -84,6 +85,10 @@ public class Patient {
             throw new PatientStatusException("Patient has already the status: " + newStatus);
         }
         this.status=newStatus;
+    }
+
+    public boolean isEligibleForAppointment(){
+        return Period.between(dateOfBirth,LocalDate.now()).getYears()>=18;
     }
 
 }
