@@ -1,4 +1,9 @@
 package com.champsoft.healthcaremilestone.modules.billing.api.dto;
 
-public class UpdateBillingRequest {
+import jakarta.validation.constraints.NotBlank;
+
+public record UpdateBillingRequest(
+        @NotBlank String description,
+        double amount
+) {
 }

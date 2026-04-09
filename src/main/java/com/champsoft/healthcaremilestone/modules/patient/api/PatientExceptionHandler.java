@@ -1,10 +1,7 @@
 package com.champsoft.healthcaremilestone.modules.patient.api;
 
 import com.champsoft.healthcaremilestone.modules.patient.application.exception.DuplicatePatientException;
-import com.champsoft.healthcaremilestone.modules.patient.domain.exception.ExpiredHealthInsuranceCardException;
-import com.champsoft.healthcaremilestone.modules.patient.domain.exception.InvalidAddressException;
-import com.champsoft.healthcaremilestone.modules.patient.domain.exception.InvalidInsuranceCardNumber;
-import com.champsoft.healthcaremilestone.modules.patient.domain.exception.PatientNotFoundException;
+import com.champsoft.healthcaremilestone.modules.patient.domain.exception.*;
 import com.champsoft.healthcaremilestone.shared.web.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -42,7 +39,8 @@ public class PatientExceptionHandler {
           ExpiredHealthInsuranceCardException.class,
             InvalidInsuranceCardNumber.class,
             InvalidAddressException.class,
-            IllegalArgumentException.class
+            IllegalArgumentException.class,
+            PatientEligibilityAppointmentException.class
     })
     public ResponseEntity<ApiErrorResponse> badRequest(RuntimeException ex, HttpServletRequest req){
         return build(HttpStatus.BAD_REQUEST,ex,req);
