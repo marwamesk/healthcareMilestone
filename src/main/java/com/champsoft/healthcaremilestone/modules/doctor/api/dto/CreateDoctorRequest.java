@@ -1,9 +1,15 @@
 package com.champsoft.healthcaremilestone.modules.doctor.api.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
-public record CreateDoctorRequest(
-        @NotBlank String firstName,
-        @NotBlank String lastName,
-        @NotBlank String specialty
-) {}
+import java.time.LocalDate;
+
+@Setter
+@Getter
+public class CreateDoctorRequest {
+    private String firstName;
+    private String lastName;
+    private LocalDate licenseExpiryDate;
+
+}

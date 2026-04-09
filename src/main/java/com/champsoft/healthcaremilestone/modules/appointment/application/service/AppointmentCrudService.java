@@ -32,7 +32,7 @@ public class AppointmentCrudService {
                 .orElseThrow(() -> new DoctorNotFoundException("Doctor not found: " + doctorId));
 
         doctor.validateLicense();
-        if (!doctor.isAvailable(timeSlot.start())) {
+        if (doctor.isAvailable(timeSlot.start())) {
             throw new IllegalStateException("Doctor not available at this time");
         }
 
@@ -75,7 +75,7 @@ public class AppointmentCrudService {
 
 
         doctor.validateLicense();
-        if (!doctor.isAvailable(timeSlot.start())) {
+        if (doctor.isAvailable(timeSlot.start())) {
             throw new IllegalStateException("Doctor not available at this time");
         }
 

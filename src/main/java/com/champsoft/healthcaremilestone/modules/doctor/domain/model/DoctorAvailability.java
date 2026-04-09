@@ -1,27 +1,35 @@
 package com.champsoft.healthcaremilestone.modules.doctor.domain.model;
 
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import lombok.Getter;
 
+/**
+ * Represents a recurring availability slot for a doctor.
+ */
+@Getter
 public class DoctorAvailability {
 
-    private DayOfWeek day;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private final DayOfWeek dayOfWeek;
+    private final LocalTime startTime;
+    private final LocalTime endTime;
 
-    public DoctorAvailability(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
-        this.day = day;
+    public DoctorAvailability(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {
+        if (startTime.isAfter(endTime)) {
+            throw new IllegalArgumentException("Start time must be before end time");
+        }
+        this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
         this.endTime = endTime;
-
-        if (!startTime.isBefore(endTime)) {
-            throw new IllegalArgumentException("Invalid availability time range");
-        }
     }
 
-    public boolean matches(java.time.LocalDateTime dateTime) {
-        return dateTime.getDayOfWeek().equals(day)
-                && !dateTime.toLocalTime().isBefore(startTime)
-                && !dateTime.toLocalTime().isAfter(endTime);
+    /**
+     * Checks if the given dateTime falls within this availability slot.
+     */
+    public boolean matches(LocalDateTime dateTime) {
+        return dateTime.getDayOfWeek() == dayOfWeek &&
+                !dateTime.toLocalTime().isBefore(startTime) &&
+                !dateTime.toLocalTime().isAfter(endTime);
     }
 }
