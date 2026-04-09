@@ -1,33 +1,45 @@
 package com.champsoft.healthcaremilestone.modules.doctor.domain.model;
 
+import com.champsoft.healthcaremilestone.modules.doctor.domain.exception.DoctorLicenseExpiredException;
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.*;
+
 public class Doctor {
 
-    private final DoctorId id;
-    @Setter
-    private String firstName;
-    @Setter
-    private String lastName;
-    @Setter
-    private String specialty;
-    private DoctorStatus status;
+    @Getter
+    private final UUID id;
+    @Getter
+    private final String name;
+    @Getter
+    private final LocalDate licenseExpiryDate;
 
-    public Doctor(DoctorId id, String firstName, String lastName, String specialty) {
-        if (firstName == null || lastName == null || specialty == null) {
-            throw new IllegalArgumentException("Doctor fields cannot be null");
-        }
+    private final List<DoctorAvailability> availabilities = new ArrayList<>();
 
+    public Doctor(UUID id, String name, LocalDate licenseExpiryDate) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.specialty = specialty;
-        this.status = DoctorStatus.ACTIVE;
+        this.name = name;
+        this.licenseExpiryDate = licenseExpiryDate;
     }
 
-    public void deactivate() {
-        this.status = DoctorStatus.INACTIVE;
+    public void addAvailability(DoctorAvailability availability) {
+        availabilities.add(availability);
     }
+
+    public boolean isAvailable(LocalDateTime dateTime) {
+        return availabilities.stream().anyMatch(a -> a.matches(dateTime));
+    }
+
+    public boolean isLicenseValid() {
+        return !licenseExpiryDate.isBefore(LocalDate.now());
+    }
+
+    public void validateLicense() {
+        if (!isLicenseValid()) {
+            throw new DoctorLicenseExpiredException("Doctor license expired");
+        }
+    }
+
 }

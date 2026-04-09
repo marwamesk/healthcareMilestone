@@ -1,15 +1,16 @@
 package com.champsoft.healthcaremilestone.modules.appointment.application.service;
 
 import com.champsoft.healthcaremilestone.modules.appointment.application.port.out.*;
-
 import com.champsoft.healthcaremilestone.modules.appointment.domain.exception.*;
-
 import com.champsoft.healthcaremilestone.modules.appointment.domain.model.*;
+import com.champsoft.healthcaremilestone.modules.doctor.domain.model.Doctor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+
 @Transactional
 @Service
 public class AppointmentCrudService {
@@ -27,8 +28,12 @@ public class AppointmentCrudService {
 
     public Appointment create(UUID patientId, UUID doctorId, TimeSlot timeSlot) {
 
-        if (!doctorLookup.existsById(doctorId)) {
-            throw new DoctorNotFoundException("Doctor not found: " + doctorId);
+        Doctor doctor = doctorLookup.findById(doctorId)
+                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found: " + doctorId));
+
+        doctor.validateLicense();
+        if (!doctor.isAvailable(timeSlot.start())) {
+            throw new IllegalStateException("Doctor not available at this time");
         }
 
         if (repository.existsOverlapping(
@@ -65,10 +70,14 @@ public class AppointmentCrudService {
         Appointment existing = repository.findById(id)
                 .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found: " + id));
 
-        if (!doctorLookup.existsById(doctorId)) {
-            throw new DoctorNotFoundException("Doctor not found: " + doctorId);
-        }
+        Doctor doctor = doctorLookup.findById(doctorId)
+                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found: " + doctorId));
 
+
+        doctor.validateLicense();
+        if (!doctor.isAvailable(timeSlot.start())) {
+            throw new IllegalStateException("Doctor not available at this time");
+        }
 
         if (repository.existsOverlappingExcludingId(
                 id,

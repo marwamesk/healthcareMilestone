@@ -1,70 +1,51 @@
 package com.champsoft.healthcaremilestone.modules.doctor.infrastructure.persistence;
 
 import com.champsoft.healthcaremilestone.modules.doctor.application.port.out.DoctorRepositoryPort;
-import com.champsoft.healthcaremilestone.modules.doctor.domain.model.*;
-import org.springframework.stereotype.Repository;
+import com.champsoft.healthcaremilestone.modules.doctor.domain.model.Doctor;
 
-import java.util.*;
+import org.springframework.stereotype.Component;
 
-@Repository
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@Component
 public class JpaDoctorRepositoryAdapter implements DoctorRepositoryPort {
 
-    private final SpringDataDoctorRepository repo;
+    private final DoctorRepository repository;
 
-    public JpaDoctorRepositoryAdapter(SpringDataDoctorRepository repo) {
-        this.repo = repo;
+    public JpaDoctorRepositoryAdapter(DoctorRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public Doctor save(Doctor doctor) {
-        return toDomain(repo.save(toEntity(doctor)));
+        DoctorJpaEntity entity = DoctorMapper.toEntity(doctor);
+        return DoctorMapper.toDomain(repository.save(entity));
     }
 
     @Override
     public Optional<Doctor> findById(UUID id) {
-        return repo.findById(id).map(this::toDomain);
+        return repository.findById(id)
+                .map(DoctorMapper::toDomain);
     }
 
     @Override
     public List<Doctor> findAll() {
-        return repo.findAll().stream().map(this::toDomain).toList();
+        return repository.findAll()
+                .stream()
+                .map(DoctorMapper::toDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
     public void deleteById(UUID id) {
-        repo.deleteById(id);
+        repository.deleteById(id);
     }
+
     @Override
     public boolean existsById(UUID id) {
-        return repo.existsById(id);
-    }
-
-    // mapping
-
-    private DoctorJpaEntity toEntity(Doctor d) {
-        DoctorJpaEntity e = new DoctorJpaEntity();
-
-        e.setId(d.getId().value());
-        e.setFirstName(d.getFirstName());
-        e.setLastName(d.getLastName());
-        e.setSpecialty(d.getSpecialty());
-        e.setStatus(d.getStatus().name());
-
-        return e;
-    }
-
-    private Doctor toDomain(DoctorJpaEntity e) {
-        Doctor d = new Doctor(
-                new DoctorId(e.getId()),
-                e.getFirstName(),
-                e.getLastName(),
-                e.getSpecialty()
-        );
-
-        if ("INACTIVE".equals(e.getStatus())) {
-            d.deactivate();
-        }
-
-        return d;
+        return repository.existsById(id);
     }
 }

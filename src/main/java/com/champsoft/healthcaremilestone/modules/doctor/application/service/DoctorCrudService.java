@@ -1,51 +1,52 @@
 package com.champsoft.healthcaremilestone.modules.doctor.application.service;
-import com.champsoft.healthcaremilestone.modules.doctor.application.port.out.DoctorRepositoryPort;
-import com.champsoft.healthcaremilestone.modules.doctor.domain.model.*;
-import org.springframework.stereotype.Service;
 
-import java.util.*;
+import com.champsoft.healthcaremilestone.modules.doctor.application.port.out.DoctorRepositoryPort;
+import com.champsoft.healthcaremilestone.modules.doctor.domain.model.Doctor;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DoctorCrudService {
 
-    private final DoctorRepositoryPort repo;
+    private final DoctorRepositoryPort repository;
 
-    public DoctorCrudService(DoctorRepositoryPort repo) {
-        this.repo = repo;
+    public DoctorCrudService(DoctorRepositoryPort repository) {
+        this.repository = repository;
     }
 
-    public Doctor create(String firstName, String lastName, String specialty) {
-        Doctor doctor = new Doctor(
-                DoctorId.newId(),
-                firstName,
-                lastName,
-                specialty
-        );
-
-        return repo.save(doctor);
+    @Transactional
+    public Doctor create(Doctor doctor) {
+        return repository.save(doctor);
     }
 
+    @Transactional(readOnly = true)
     public List<Doctor> getAll() {
-        return repo.findAll();
+        return repository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Doctor getById(UUID id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
-    }
-    public Doctor update(UUID id, String firstName, String lastName, String specialty) {
-
-        Doctor doctor = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
-
-        doctor.setFirstName(firstName);
-        doctor.setLastName(lastName);
-        doctor.setSpecialty(specialty);
-
-        return repo.save(doctor);
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Doctor not found: " + id));
     }
 
+    @Transactional
+    public Doctor update(UUID id, Doctor doctor) {
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Doctor not found: " + id);
+        }
+        return repository.save(doctor);
+    }
+
+    @Transactional
     public void delete(UUID id) {
-        repo.deleteById(id);
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Doctor not found: " + id);
+        }
+        repository.deleteById(id);
     }
 }

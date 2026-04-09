@@ -1,17 +1,18 @@
 package com.champsoft.healthcaremilestone.modules.doctor.api;
-import com.champsoft.healthcaremilestone.modules.doctor.api.dto.*;
-import com.champsoft.healthcaremilestone.modules.doctor.api.mapper.DoctorApiMapper;
-import com.champsoft.healthcaremilestone.modules.doctor.application.service.DoctorCrudService;
 
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
+import com.champsoft.healthcaremilestone.modules.doctor.api.dto.*;
+import com.champsoft.healthcaremilestone.modules.doctor.api.mapper.DoctorDtoMapper;
+import com.champsoft.healthcaremilestone.modules.doctor.application.service.DoctorCrudService;
+import com.champsoft.healthcaremilestone.modules.doctor.domain.model.Doctor;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/doctors")
+@RequestMapping("/doctors")
 public class DoctorController {
 
     private final DoctorCrudService service;
@@ -21,51 +22,26 @@ public class DoctorController {
     }
 
     @PostMapping
-    public ResponseEntity<DoctorResponse> create(
-            @Valid @RequestBody CreateDoctorRequest request) {
-
-        var doctor = service.create(
-                request.firstName(),
-                request.lastName(),
-                request.specialty()
-        );
-
-        return ResponseEntity
-                .status(201)
-                .body(DoctorApiMapper.toResponse(doctor));
+    public DoctorResponse create(@RequestBody CreateDoctorRequest request) {
+        Doctor doctor = DoctorDtoMapper.toDomain(request);
+        return DoctorDtoMapper.toResponse(service.create(doctor));
     }
 
     @GetMapping
     public List<DoctorResponse> getAll() {
         return service.getAll()
                 .stream()
-                .map(DoctorApiMapper::toResponse)
-                .toList();
+                .map(DoctorDtoMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public DoctorResponse getById(@PathVariable UUID id) {
-        return DoctorApiMapper.toResponse(service.getById(id));
+        return DoctorDtoMapper.toResponse(service.getById(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<DoctorResponse> update(
-            @PathVariable UUID id,
-            @RequestBody @Valid UpdateDoctorRequest request
-    ) {
-
-        var updated = service.update(
-                id,
-                request.firstName(),
-                request.lastName(),
-                request.specialty()
-        );
-
-        return ResponseEntity.ok(DoctorApiMapper.toResponse(updated));
-    }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+    public void delete(@PathVariable UUID id) {
         service.delete(id);
-        return ResponseEntity.noContent().build();
     }
 }

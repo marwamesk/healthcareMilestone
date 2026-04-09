@@ -2,23 +2,30 @@ package com.champsoft.healthcaremilestone.modules.doctor.infrastructure.persiste
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
-@Setter
 @Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "doctors")
 public class DoctorJpaEntity {
 
-    // getters & setters
     @Id
     private UUID id;
 
+    @Column(nullable = false)
     private String firstName;
-    private String lastName;
-    private String specialty;
-    private String status;
 
+    @Column(nullable = false)
+    private String lastName;
+
+    private String specialty;
+
+    @Column(name = "license_expiry_date", nullable = false)
+    private LocalDate licenseExpiryDate;
 }
