@@ -1,7 +1,10 @@
 package com.champsoft.healthcaremilestone.modules.appointment.domain.model;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
+@Getter
 public class Appointment {
 
     private final AppointmentId id;
@@ -22,12 +25,6 @@ public class Appointment {
         this.timeSlot = timeSlot;
         this.status = AppointmentStatus.SCHEDULED;
     }
-
-    public AppointmentId getId() { return id; }
-    public UUID getPatientId() { return patientId; }
-    public UUID getDoctorId() { return doctorId; }
-    public TimeSlot getTimeSlot() { return timeSlot; }
-    public AppointmentStatus getStatus() { return status; }
 
     public void cancel() {
         if (status == AppointmentStatus.COMPLETED) {

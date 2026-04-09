@@ -3,12 +3,9 @@ package com.champsoft.healthcaremilestone.modules.appointment.domain.model;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class TimeSlot {
+public record TimeSlot(LocalDateTime start, LocalDateTime end) {
 
-    private final LocalDateTime start;
-    private final LocalDateTime end;
-
-    public TimeSlot(LocalDateTime start, LocalDateTime end) {
+    public TimeSlot {
         if (start == null || end == null) {
             throw new IllegalArgumentException("TimeSlot cannot be null");
         }
@@ -19,10 +16,6 @@ public class TimeSlot {
             throw new IllegalArgumentException("Max 3 hours allowed");
         }
 
-        this.start = start;
-        this.end = end;
     }
 
-    public LocalDateTime getStart() { return start; }
-    public LocalDateTime getEnd() { return end; }
 }

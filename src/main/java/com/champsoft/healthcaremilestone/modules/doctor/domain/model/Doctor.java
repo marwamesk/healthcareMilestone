@@ -1,10 +1,17 @@
 package com.champsoft.healthcaremilestone.modules.doctor.domain.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
 public class Doctor {
 
     private final DoctorId id;
+    @Setter
     private String firstName;
+    @Setter
     private String lastName;
+    @Setter
     private String specialty;
     private DoctorStatus status;
 
@@ -19,12 +26,6 @@ public class Doctor {
         this.specialty = specialty;
         this.status = DoctorStatus.ACTIVE;
     }
-
-    public DoctorId getId() { return id; }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public String getSpecialty() { return specialty; }
-    public DoctorStatus getStatus() { return status; }
 
     public void deactivate() {
         this.status = DoctorStatus.INACTIVE;

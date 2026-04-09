@@ -10,14 +10,20 @@ public interface SpringDataAppointmentRepository
         extends JpaRepository<AppointmentJpaEntity, UUID> {
 
     @Query("""
-        SELECT COUNT(a) > 0 FROM AppointmentJpaEntity a
-        WHERE a.doctorId = :doctorId
-        AND a.startTime < :endTime
-        AND a.endTime > :startTime
-    """)
-    boolean existsOverlappingAppointment(
-            UUID doctorId,
-            LocalDateTime startTime,
-            LocalDateTime endTime
-    );
+    SELECT COUNT(a) > 0 FROM AppointmentJpaEntity a
+    WHERE a.doctorId = :doctorId
+    AND a.startTime < :end
+    AND a.endTime > :start
+""")
+    boolean existsOverlapping(UUID doctorId, LocalDateTime start, LocalDateTime end);
+
+    @Query("""
+    SELECT COUNT(a) > 0 FROM AppointmentJpaEntity a
+    WHERE a.id <> :id
+    AND a.doctorId = :doctorId
+    AND a.startTime < :end
+    AND a.endTime > :start
+""")
+    boolean existsOverlappingExcludingId(UUID id, UUID doctorId, LocalDateTime start, LocalDateTime end);
+
 }

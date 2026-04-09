@@ -1,7 +1,5 @@
 package com.champsoft.healthcaremilestone.modules.doctor.api;
-
-import com.champsoft.healthcaremilestone.modules.doctor.api.dto.CreateDoctorRequest;
-import com.champsoft.healthcaremilestone.modules.doctor.api.dto.DoctorResponse;
+import com.champsoft.healthcaremilestone.modules.doctor.api.dto.*;
 import com.champsoft.healthcaremilestone.modules.doctor.api.mapper.DoctorApiMapper;
 import com.champsoft.healthcaremilestone.modules.doctor.application.service.DoctorCrudService;
 
@@ -50,6 +48,21 @@ public class DoctorController {
         return DoctorApiMapper.toResponse(service.getById(id));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<DoctorResponse> update(
+            @PathVariable UUID id,
+            @RequestBody @Valid UpdateDoctorRequest request
+    ) {
+
+        var updated = service.update(
+                id,
+                request.firstName(),
+                request.lastName(),
+                request.specialty()
+        );
+
+        return ResponseEntity.ok(DoctorApiMapper.toResponse(updated));
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);

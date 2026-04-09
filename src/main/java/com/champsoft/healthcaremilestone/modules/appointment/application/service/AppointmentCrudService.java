@@ -1,13 +1,16 @@
 package com.champsoft.healthcaremilestone.modules.appointment.application.service;
 
-import com.champsoft.healthcaremilestone.modules.appointment.application.port.out.AppointmentRepositoryPort;
-import com.champsoft.healthcaremilestone.modules.appointment.application.port.out.DoctorLookupPort;
+import com.champsoft.healthcaremilestone.modules.appointment.application.port.out.*;
+
+import com.champsoft.healthcaremilestone.modules.appointment.domain.exception.*;
+
 import com.champsoft.healthcaremilestone.modules.appointment.domain.model.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-
+@Transactional
 @Service
 public class AppointmentCrudService {
 
@@ -24,18 +27,16 @@ public class AppointmentCrudService {
 
     public Appointment create(UUID patientId, UUID doctorId, TimeSlot timeSlot) {
 
-        // doctor must exist
         if (!doctorLookup.existsById(doctorId)) {
-            throw new RuntimeException("Doctor does not exist");
+            throw new DoctorNotFoundException("Doctor not found: " + doctorId);
         }
 
-        // overlap validation
         if (repository.existsOverlapping(
                 doctorId,
-                timeSlot.getStart(),
-                timeSlot.getEnd()
+                timeSlot.start(),
+                timeSlot.end()
         )) {
-            throw new RuntimeException("Doctor already has an appointment in this time slot");
+            throw new TimeSlotConflictException("Doctor already booked in this time slot");
         }
 
         Appointment appointment = new Appointment(
@@ -48,16 +49,50 @@ public class AppointmentCrudService {
         return repository.save(appointment);
     }
 
+    @Transactional(readOnly = true)
     public List<Appointment> getAll() {
         return repository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Appointment getById(UUID id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+                .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found: " + id));
+    }
+
+    public Appointment update(UUID id, UUID patientId, UUID doctorId, TimeSlot timeSlot) {
+
+        Appointment existing = repository.findById(id)
+                .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found: " + id));
+
+        if (!doctorLookup.existsById(doctorId)) {
+            throw new DoctorNotFoundException("Doctor not found: " + doctorId);
+        }
+
+
+        if (repository.existsOverlappingExcludingId(
+                id,
+                doctorId,
+                timeSlot.start(),
+                timeSlot.end()
+        )) {
+            throw new TimeSlotConflictException("Doctor already booked in this time slot");
+        }
+
+        Appointment updated = new Appointment(
+                existing.getId(),
+                patientId,
+                doctorId,
+                timeSlot
+        );
+
+        return repository.save(updated);
     }
 
     public void delete(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new AppointmentNotFoundException("Appointment not found: " + id);
+        }
         repository.deleteById(id);
     }
 }
