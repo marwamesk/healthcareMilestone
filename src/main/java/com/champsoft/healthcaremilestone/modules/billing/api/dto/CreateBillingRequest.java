@@ -9,14 +9,7 @@ import java.time.LocalDate;
 public record CreateBillingRequest(
 
         @NotBlank String description,
-
-        @NotNull Double amount,   // FIX (no nulls)
-
+        @NotNull Double amount,
         @NotNull LocalDate dueDate,
-
         @NotNull PaymentMethod method
-
-       // @NotBlank String patientId,      // NEW
-
-        //@NotBlank String appointmentId   // NEW (very important)
 ) {}
