@@ -1,11 +1,17 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:healthcare_db}
-    username: ${POSTGRES_USER:healthcare}
-    password: ${POSTGRES_PASSWORD:mile}
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgres:5432/healthcare_db
+    username: postgres
+    password: postgres
 
+  jpa:
+    hibernate:
+      ddl-auto: update   # use validate in production
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
-  h2:
-    console:
-      enabled: false
+  sql:
+    init:
+      mode: always
