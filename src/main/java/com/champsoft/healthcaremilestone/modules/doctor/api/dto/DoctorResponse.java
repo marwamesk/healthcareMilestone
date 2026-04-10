@@ -9,10 +9,10 @@ import java.util.UUID;
 @Setter
 @Getter
 public class DoctorResponse {
-    private UUID id;
+    private String id;
     private String firstName;
     private String lastName;
-    private LocalDate licenseExpiryDate;
+    private String speciality;
     private boolean active;
 
 }

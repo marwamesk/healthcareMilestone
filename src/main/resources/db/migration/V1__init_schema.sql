@@ -97,3 +97,16 @@ UPDATE billing SET due_date = '2026-04-21', payment_method = 'CREDIT_CARD', stat
 UPDATE billing SET due_date = '2026-04-22', payment_method = 'INSURANCE', status = 'PENDING' WHERE id = 'b3';
 UPDATE billing SET due_date = '2026-04-23', payment_method = 'CASH', status = 'PENDING' WHERE id = 'b4';
 UPDATE billing SET due_date = '2026-04-24', payment_method = 'CREDIT_CARD', status = 'PENDING' WHERE id = 'b5';
+
+
+ALTER TABLE billing DROP COLUMN patient_id;
+ALTER TABLE billing DROP COLUMN appointment_id;
+ALTER TABLE appointment ADD billing_id VARCHAR(255);
+ALTER TABLE appointment
+    ADD CONSTRAINT fk_appointment_billing
+        FOREIGN KEY (billing_id) REFERENCES billing(id);
+UPDATE appointment SET billing_id = 'b1' WHERE id = 'a1';
+UPDATE appointment SET billing_id = 'b2' WHERE id = 'a2';
+UPDATE appointment SET billing_id = 'b3' WHERE id = 'a3';
+UPDATE appointment SET billing_id = 'b4' WHERE id = 'a4';
+UPDATE appointment SET billing_id = 'b5' WHERE id = 'a5';

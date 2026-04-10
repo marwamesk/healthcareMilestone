@@ -28,7 +28,6 @@ public class HealthInsuranceCard {
             );
         }
 
-
         String formatted = cleaned.substring(0, 4) + " " +
                 cleaned.substring(4, 8) + " " +
                 cleaned.substring(8, 12);
@@ -49,7 +48,6 @@ public class HealthInsuranceCard {
         this.expiryDate = expiryDate;
     }
 
-    // explicit getter (optional but safe)
     public String insuranceCardNumber() {
         return healthCardNum;
     }

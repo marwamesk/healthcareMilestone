@@ -13,7 +13,7 @@ public class BillingEligibilityService {
 
     private final BillingRepositoryPort repo;
 
-    public BillingEligibilityService(@Qualifier("jpaBillingRepositoryAdapter")BillingRepositoryPort repo){
+    public BillingEligibilityService(BillingRepositoryPort repo){
         this.repo = repo;
     }
 

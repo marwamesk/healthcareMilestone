@@ -10,6 +10,7 @@ import java.time.LocalDate;
 public class CreateDoctorRequest {
     private String firstName;
     private String lastName;
+    private String speciality;
     private LocalDate licenseExpiryDate;
 
 }

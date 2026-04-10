@@ -16,7 +16,7 @@ import java.util.UUID;
 public class DoctorJpaEntity {
 
     @Id
-    private UUID id;
+    private String id;
 
     @Column(nullable = false)
     private String firstName;

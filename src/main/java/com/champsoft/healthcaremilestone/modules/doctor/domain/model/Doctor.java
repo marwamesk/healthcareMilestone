@@ -4,32 +4,29 @@ import com.champsoft.healthcaremilestone.modules.doctor.domain.exception.DoctorL
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 public class Doctor {
 
-    private final UUID id;
+    private final String id;
 
     private String firstName;
     private String lastName;
     private String specialty;
-
     private LocalDate licenseExpiryDate;
     private boolean active;
 
     private final List<DoctorAvailability> availabilities = new ArrayList<>();
 
-    public Doctor(UUID id,
+    public Doctor(String id,
                   String firstName,
                   String lastName,
                   String specialty,
                   LocalDate licenseExpiryDate) {
 
-        if (id == null) throw new IllegalArgumentException("id required");
+        if (id == null || id.isBlank()) throw new IllegalArgumentException("id required");
         if (licenseExpiryDate == null) throw new IllegalArgumentException("license required");
 
         this.id = id;

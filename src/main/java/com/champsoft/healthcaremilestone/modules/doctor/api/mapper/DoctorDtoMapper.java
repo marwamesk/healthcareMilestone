@@ -11,10 +11,10 @@ public class DoctorDtoMapper {
     public static Doctor toDomain(CreateDoctorRequest request) {
 
         return new Doctor(
-                UUID.randomUUID(),
+                UUID.randomUUID().toString(),
                 request.getFirstName(),
                 request.getLastName(),
-                null, // specialty optional at create time if not provided
+                request.getSpeciality(),
                 request.getLicenseExpiryDate()
         );
     }
@@ -22,10 +22,10 @@ public class DoctorDtoMapper {
     public static DoctorResponse toResponse(Doctor doctor) {
 
         DoctorResponse response = new DoctorResponse();
-        response.setId(doctor.getId());
+        response.setId(String.valueOf(UUID.fromString(doctor.getId())));
         response.setFirstName(doctor.getFirstName());
         response.setLastName(doctor.getLastName());
-        response.setLicenseExpiryDate(doctor.getLicenseExpiryDate());
+        response.setSpeciality(doctor.getSpecialty());
         response.setActive(doctor.isActive());
 
         return response;

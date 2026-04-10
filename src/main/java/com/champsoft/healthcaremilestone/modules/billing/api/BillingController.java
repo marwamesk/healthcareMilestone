@@ -7,10 +7,8 @@ import com.champsoft.healthcaremilestone.modules.billing.application.service.Bil
 import com.champsoft.healthcaremilestone.modules.billing.domain.model.DueDate;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/billing")

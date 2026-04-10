@@ -24,6 +24,9 @@ public class AppointmentJpaEntity {
     @Column(nullable = false)
     private String patientId;
 
+    @Column(nullable = false)
+    private String billingId;
+
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
 

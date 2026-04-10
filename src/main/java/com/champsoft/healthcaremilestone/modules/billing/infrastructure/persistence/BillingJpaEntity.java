@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class BillingJpaEntity {
 
     @Id
-    private String id;   // IMPORTANT: STRING ONLY (NOT BillingId)
+    private String id;
 
     private LocalDate dueDate;
 

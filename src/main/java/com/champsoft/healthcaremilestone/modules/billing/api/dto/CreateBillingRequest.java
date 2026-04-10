@@ -14,9 +14,9 @@ public record CreateBillingRequest(
 
         @NotNull LocalDate dueDate,
 
-        @NotNull PaymentMethod method,
+        @NotNull PaymentMethod method
 
-        @NotBlank String patientId,      // NEW
+       // @NotBlank String patientId,      // NEW
 
-        @NotBlank String appointmentId   // NEW (very important)
+        //@NotBlank String appointmentId   // NEW (very important)
 ) {}

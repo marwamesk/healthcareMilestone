@@ -24,6 +24,7 @@ public class JpaAppointmentRepositoryAdapter implements AppointmentRepositoryPor
         e.setId(appt.id().value());
         e.setDoctorId(appt.doctorIdValue());
         e.setPatientId(appt.patientIdValue());
+        e.setBillingId(appt.getBillingRef().value());
         e.setStatus(appt.status());
         e.setTime(appt.timeValue());
         repo.save(e);
@@ -37,6 +38,7 @@ public class JpaAppointmentRepositoryAdapter implements AppointmentRepositoryPor
                         new AppointmentId(e.getId()),
                         new DoctorRef(e.getDoctorId()),
                         new PatientRef(e.getPatientId()),
+                        new BillingRef(e.getBillingId()),
                         new AppointmentTime(e.getTime())
                 )
         );
@@ -49,6 +51,7 @@ public class JpaAppointmentRepositoryAdapter implements AppointmentRepositoryPor
                         new AppointmentId(e.getId()),
                         new DoctorRef(e.getDoctorId()),
                         new PatientRef(e.getPatientId()),
+                        new BillingRef(e.getBillingId()),
                         new AppointmentTime(e.getTime())
                 )
         ).toList();

@@ -9,11 +9,9 @@ public class AppointmentRepresentationAssembler {
         AppointmentResponse r = new AppointmentResponse();
 
         r.id = a.id().value();
-
-        // FIX: use correct domain methods
         r.doctorId = a.doctorId().value();
         r.patientId = a.patientId().value();
-
+        r.billingId=a.getBillingRef().value();
         r.status = a.status().name();
         r.time = a.time().value();
 

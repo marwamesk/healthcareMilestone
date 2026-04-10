@@ -10,11 +10,11 @@ public interface DoctorRepositoryPort {
 
     Doctor save(Doctor doctor);
 
-    Optional<Doctor> findById(UUID id);
+    Optional<Doctor> findById(String id);
 
     List<Doctor> findAll();
 
-    void deleteById(UUID id);
+    void deleteById(String id);
 
-    boolean existsById(UUID id);
+    boolean existsById(String id);
 }

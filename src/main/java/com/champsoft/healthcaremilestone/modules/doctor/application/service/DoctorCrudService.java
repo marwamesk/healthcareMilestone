@@ -1,6 +1,7 @@
 package com.champsoft.healthcaremilestone.modules.doctor.application.service;
 
 import com.champsoft.healthcaremilestone.modules.doctor.application.port.out.DoctorRepositoryPort;
+import com.champsoft.healthcaremilestone.modules.doctor.domain.exception.DuplicateDoctorException;
 import com.champsoft.healthcaremilestone.modules.doctor.domain.model.Doctor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ public class DoctorCrudService {
 
     @Transactional
     public Doctor create(Doctor doctor) {
+        if(repository.existsById(doctor.getId()))throw new DuplicateDoctorException("Doctor Id already exist");
         return repository.save(doctor);
     }
 
@@ -29,28 +31,25 @@ public class DoctorCrudService {
     }
 
     @Transactional(readOnly = true)
-    public Doctor getById(UUID id) {
-        return repository.findById(id)
+    public Doctor getById(String id) {
+        return repository.findById(String.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Doctor not found: " + id));
     }
 
-    // FIXED: matches controller
+
     @Transactional
 
-    public Doctor updateInfo(UUID id, String firstName, String lastName, String specialty) {
-
-        Doctor doctor = getById(id);
-
+    public Doctor updateInfo(String id, String firstName, String lastName, String specialty) {
+        Doctor doctor = getById(String.valueOf(UUID.fromString(id)));
         doctor.updateInfo(firstName, lastName, specialty);
-
         return repository.save(doctor);
     }
 
-    // NEW
-    @Transactional
-    public Doctor updateLicense(UUID id, LocalDate expiryDate) {
 
-        Doctor doctor = getById(id);
+    @Transactional
+    public Doctor updateLicense(String id, LocalDate expiryDate) {
+
+        Doctor doctor = getById(String.valueOf(id));
 
         if (expiryDate == null) {
             throw new RuntimeException("License expiry cannot be null");
@@ -61,17 +60,17 @@ public class DoctorCrudService {
         return repository.save(doctor);
     }
 
-    // ✅ NEW
+
     @Transactional
-    public Doctor activate(UUID id) {
+    public Doctor activate(String id) {
         Doctor doctor = getById(id);
         doctor.activate();
         return repository.save(doctor);
     }
 
-    // ✅ NEW
+
     @Transactional
-    public Doctor deactivate(UUID id) {
+    public Doctor deactivate(String id) {
         Doctor doctor = getById(id);
         doctor.deactivate();
         return repository.save(doctor);
@@ -79,9 +78,9 @@ public class DoctorCrudService {
 
     @Transactional
     public void delete(UUID id) {
-        if (!repository.existsById(id)) {
+        if (!repository.existsById(String.valueOf(id))) {
             throw new RuntimeException("Doctor not found: " + id);
         }
-        repository.deleteById(id);
+        repository.deleteById(String.valueOf(id));
     }
 }

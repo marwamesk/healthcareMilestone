@@ -25,7 +25,7 @@ public class PatientCrudService {
         HealthInsuranceCard h = new HealthInsuranceCard(insuranceCard.insuranceCardNumber(),insuranceCard.getExpiryDate());
         if(repo.existByInsuranceCard(h.insuranceCardNumber())) throw new DuplicatePatientException("Patient already exists");
         Address address1 = new Address(address.getStreetNumber(),address.getStreetName(), address.getCity(),address.getPostalCode(), address.getCountry());
-        var patient = new Patient(PatientId.newId(),firstName,lastName,phoneNumber,email,dateOfBirth,insuranceCard,address,status);
+        var patient = new Patient(PatientId.newId(),firstName,lastName,phoneNumber,email,dateOfBirth,h,address1,status);
 
         return repo.save(patient);
     }

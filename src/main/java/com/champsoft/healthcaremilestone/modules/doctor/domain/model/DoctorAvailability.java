@@ -24,9 +24,7 @@ public class DoctorAvailability {
         this.endTime = endTime;
     }
 
-    /**
-     * Checks if the given dateTime falls within this availability slot.
-     */
+
     public boolean matches(LocalDateTime dateTime) {
         return dateTime.getDayOfWeek() == dayOfWeek &&
                 !dateTime.toLocalTime().isBefore(startTime) &&

@@ -2,13 +2,15 @@ package com.champsoft.healthcaremilestone.modules.doctor.infrastructure.persiste
 
 import com.champsoft.healthcaremilestone.modules.doctor.domain.model.Doctor;
 
+import java.util.UUID;
+
 public class DoctorMapper {
 
     public static DoctorJpaEntity toEntity(Doctor doctor) {
 
         DoctorJpaEntity e = new DoctorJpaEntity();
 
-        e.setId(doctor.getId());
+        e.setId(String.valueOf(UUID.fromString(doctor.getId().toString())));
         e.setFirstName(doctor.getFirstName());
         e.setLastName(doctor.getLastName());
         e.setSpecialty(doctor.getSpecialty());
@@ -21,7 +23,7 @@ public class DoctorMapper {
     public static Doctor toDomain(DoctorJpaEntity e) {
 
         Doctor doctor = new Doctor(
-                e.getId(),
+                e.getId().toString(),
                 e.getFirstName(),
                 e.getLastName(),
                 e.getSpecialty(),

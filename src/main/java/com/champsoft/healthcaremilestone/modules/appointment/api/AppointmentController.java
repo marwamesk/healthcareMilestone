@@ -20,7 +20,7 @@ public class AppointmentController {
     @PostMapping
     public AppointmentResponse create(@RequestBody CreateAppointmentRequest req) {
         return AppointmentRepresentationAssembler.toResponse(
-                orchestrator.create(req.doctorId, req.patientId, req.time)
+                orchestrator.create(req.doctorId, req.patientId, req.billingId,req.time)
         );
     }
 
@@ -42,6 +42,8 @@ public class AppointmentController {
     public void delete(@PathVariable String id) {
         orchestrator.delete(id);
     }
+
+
     @PutMapping("/{id}/reschedule")
     public AppointmentResponse reschedule(@PathVariable String id,
                                           @RequestBody RescheduleAppointmentRequest req) {

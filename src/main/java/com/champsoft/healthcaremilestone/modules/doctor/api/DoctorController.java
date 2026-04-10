@@ -22,14 +22,13 @@ public class DoctorController {
         this.service = service;
     }
 
-    //  CREATE
     @PostMapping
     public ResponseEntity<?> create(@RequestBody @Valid CreateDoctorRequest request) {
         Doctor doctor = DoctorDtoMapper.toDomain(request);
         return ResponseEntity.ok(DoctorDtoMapper.toResponse(service.create(doctor)));
     }
 
-    //  GET ALL
+
     @GetMapping
     public ResponseEntity<?> getAll() {
         List<DoctorResponse> list = service.getAll()
@@ -39,46 +38,44 @@ public class DoctorController {
         return ResponseEntity.ok(list);
     }
 
-    // GET BY ID
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(DoctorDtoMapper.toResponse(service.getById(id)));
+    public ResponseEntity<?> getById(@PathVariable String id) {
+        return ResponseEntity.ok(DoctorDtoMapper.toResponse(service.getById(String.valueOf(UUID.fromString(id)))));
     }
 
-    //  UPDATE BASIC INFO (DDD behavior)
     @PutMapping("/{id}/info")
-    public ResponseEntity<?> updateInfo(@PathVariable UUID id,
+    public ResponseEntity<?> updateInfo(@PathVariable String id,
                                         @RequestBody @Valid UpdateDoctorRequest request) {
-        Doctor updated = service.updateInfo(id, request.firstName(), request.lastName(), request.specialty());
+        Doctor updated = service.updateInfo(id, request.firstName(), request.lastName(), request.speciality());
         return ResponseEntity.ok(DoctorDtoMapper.toResponse(updated));
     }
 
-    //  UPDATE LICENSE (important domain behavior)
+
     @PutMapping("/{id}/license")
-    public ResponseEntity<?> updateLicense(@PathVariable UUID id,
+    public ResponseEntity<?> updateLicense(@PathVariable String id,
                                            @RequestBody UpdateLicenseRequest request) {
-        Doctor updated = service.updateLicense(id, request.getLicenseExpiryDate());
+        Doctor updated = service.updateLicense(String.valueOf(UUID.fromString(id)), request.getLicenseExpiryDate());
         return ResponseEntity.ok(DoctorDtoMapper.toResponse(updated));
     }
 
-    //  ACTIVATE DOCTOR
+
     @PutMapping("/{id}/activate")
-    public ResponseEntity<?> activate(@PathVariable UUID id) {
-        Doctor updated = service.activate(id);
+    public ResponseEntity<?> activate(@PathVariable String id) {
+        Doctor updated = service.activate(String.valueOf(UUID.fromString(id)));
         return ResponseEntity.ok(DoctorDtoMapper.toResponse(updated));
     }
 
-    //  DEACTIVATE DOCTOR
+
     @PutMapping("/{id}/deactivate")
-    public ResponseEntity<?> deactivate(@PathVariable UUID id) {
-        Doctor updated = service.deactivate(id);
+    public ResponseEntity<?> deactivate(@PathVariable String id) {
+        Doctor updated = service.deactivate(String.valueOf(UUID.fromString(id)));
         return ResponseEntity.ok(DoctorDtoMapper.toResponse(updated));
     }
 
-    //  DELETE
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
-        service.delete(id);
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        service.delete(UUID.fromString(id));
         return ResponseEntity.ok("Doctor deleted");
     }
 }

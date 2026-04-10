@@ -29,7 +29,7 @@ public class AppointmentOrchestrator {
         this.billingPort = billingPort;
     }
 
-    public Appointment create(String doctorId, String patientId, LocalDateTime time) {
+    public Appointment create(String doctorId, String patientId,String billingId, LocalDateTime time) {
 
         if (!doctorPort.exists(doctorId)) throw new RuntimeException("Doctor not found");
         if (!patientPort.exists(patientId)) throw new RuntimeException("Patient not found");
@@ -38,13 +38,14 @@ public class AppointmentOrchestrator {
                 new AppointmentId(UUID.randomUUID().toString()),
                 new DoctorRef(doctorId),
                 new PatientRef(patientId),
+                new BillingRef(billingId),
                 new AppointmentTime(time)
         );
 
         return repository.save(appt);
     }
 
-    @Transactional(readOnly = true) // ⚡ optimized read
+    @Transactional(readOnly = true)
     public Appointment getById(String id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
@@ -53,11 +54,8 @@ public class AppointmentOrchestrator {
     public Appointment complete(String id) {
 
         Appointment appt = getById(id);
-
         appt.complete();
-
         repository.save(appt);
-
         billingPort.createBill(appt.id().value(), appt.patientIdValue());
 
         return appt;
@@ -91,17 +89,6 @@ public class AppointmentOrchestrator {
 
         if (req.time != null) {
             appt.reschedule(new AppointmentTime(req.time));
-        }
-
-        if (req.status != null) {
-            switch (req.status) {
-                case "COMPLETED" -> appt.complete();
-                case "CANCELLED" -> appt.cancel();
-                case "SCHEDULED" -> {
-                    // optional: restrict or ignore
-                }
-                default -> throw new RuntimeException("Invalid status");
-            }
         }
 
         return repository.save(appt);
