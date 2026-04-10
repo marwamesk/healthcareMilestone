@@ -110,3 +110,7 @@ UPDATE appointment SET billing_id = 'b2' WHERE id = 'a2';
 UPDATE appointment SET billing_id = 'b3' WHERE id = 'a3';
 UPDATE appointment SET billing_id = 'b4' WHERE id = 'a4';
 UPDATE appointment SET billing_id = 'b5' WHERE id = 'a5';
+
+UPDATE appointment
+SET time = '2026-04-20 10:00:00'
+WHERE id = 'a1';
