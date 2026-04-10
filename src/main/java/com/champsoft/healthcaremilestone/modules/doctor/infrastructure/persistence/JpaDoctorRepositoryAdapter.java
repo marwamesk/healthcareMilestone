@@ -21,7 +21,7 @@ public class JpaDoctorRepositoryAdapter implements DoctorRepositoryPort {
     @Override
     public Doctor save(Doctor doctor) {
 
-        DoctorJpaEntity entity = repository.findById(UUID.fromString(doctor.getId()))
+        DoctorJpaEntity entity = repository.findById(String.valueOf(UUID.fromString(doctor.getId())))
                 .orElse(new DoctorJpaEntity());
 
         entity.setId(String.valueOf(UUID.fromString(doctor.getId())));
@@ -36,7 +36,7 @@ public class JpaDoctorRepositoryAdapter implements DoctorRepositoryPort {
 
     @Override
     public Optional<Doctor> findById(String id) {
-        return repository.findById(UUID.fromString(id)).map(DoctorMapper::toDomain);
+        return repository.findById(String.valueOf(UUID.fromString(id))).map(DoctorMapper::toDomain);
     }
 
     @Override
@@ -49,12 +49,12 @@ public class JpaDoctorRepositoryAdapter implements DoctorRepositoryPort {
 
     @Override
     public void deleteById(String id) {
-        repository.deleteById(UUID.fromString(id));
+        repository.deleteById(String.valueOf(UUID.fromString(id)));
     }
 
     @Override
     public boolean existsById(String id) {
-        return repository.existsById(UUID.fromString(id));
+        return repository.existsById(String.valueOf(UUID.fromString(id)));
     }
 }
 

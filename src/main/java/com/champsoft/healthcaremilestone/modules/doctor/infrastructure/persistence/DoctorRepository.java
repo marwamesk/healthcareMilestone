@@ -3,5 +3,5 @@ package com.champsoft.healthcaremilestone.modules.doctor.infrastructure.persiste
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
-public interface DoctorRepository extends JpaRepository<DoctorJpaEntity, UUID> {
+public interface DoctorRepository extends JpaRepository<DoctorJpaEntity, String> {
 }
