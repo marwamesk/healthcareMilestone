@@ -26,7 +26,7 @@ public class DoctorJpaEntity {
 
     private String specialty;
 
-    @Column(name = "licenseExpiryDate", nullable = false)
+    @Column(nullable = false)
     private LocalDate licenseExpiryDate;
 
     private boolean active;

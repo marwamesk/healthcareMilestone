@@ -4,8 +4,8 @@ import com.champsoft.healthcaremilestone.modules.doctor.domain.model.Doctor;
 
 public class DoctorMapper {
 
-    // DOMAIN → ENTITY
     public static DoctorJpaEntity toEntity(Doctor doctor) {
+
         DoctorJpaEntity e = new DoctorJpaEntity();
 
         e.setId(doctor.getId());
@@ -18,7 +18,6 @@ public class DoctorMapper {
         return e;
     }
 
-    // ENTITY → DOMAIN
     public static Doctor toDomain(DoctorJpaEntity e) {
 
         Doctor doctor = new Doctor(
@@ -29,7 +28,6 @@ public class DoctorMapper {
                 e.getLicenseExpiryDate()
         );
 
-        // restore active state
         if (!e.isActive()) {
             doctor.deactivate();
         }
