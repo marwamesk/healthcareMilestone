@@ -48,13 +48,13 @@ public class PatientController {
     @PutMapping("/{id}/insuranceCard")
     public ResponseEntity<?> updatePatientCard(@PathVariable String id, @RequestBody @Valid UpdatePatientRequest req){
         var v = service.updatePatientCard(id,req.healthCardNum(),req.expiryDate());
-        return ResponseEntity.ok(PatientApiMapper.toResponse(v));
+        return ResponseEntity.ok(PatientApiMapper.toResponseHealthCard(v));
     }
     //update address
     @PutMapping("/{id}/address")
     public ResponseEntity<?> updateAddress(@PathVariable String id, @RequestBody @Valid UpdateAddressRequest req){
         var v = service.updateAddress(id,req.streetNumber(), req.streetName(), req.city(),req.postalCode(), req.Country());
-        return ResponseEntity.ok(PatientApiMapper.toResponse(v));
+        return ResponseEntity.ok(PatientApiMapper.toResponseAddress(v));
     }
     //delete
     @DeleteMapping("/{id}")
