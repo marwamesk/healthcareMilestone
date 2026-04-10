@@ -2,7 +2,7 @@ package com.champsoft.healthcaremilestone.modules.patient.api;
 
 import com.champsoft.healthcaremilestone.modules.patient.application.exception.DuplicatePatientException;
 import com.champsoft.healthcaremilestone.modules.patient.domain.exception.*;
-import com.champsoft.healthcaremilestone.shared.web.ApiErrorResponse;
+import com.champsoft.healthcaremilestone.shared.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

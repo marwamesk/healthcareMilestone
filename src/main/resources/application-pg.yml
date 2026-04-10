@@ -3,10 +3,9 @@ spring:
     url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:healthcare_db}
     username: ${POSTGRES_USER:healthcare}
     password: ${POSTGRES_PASSWORD:mile}
+    driver-class-name: org.postgresql.Driver
 
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-  spring:
-    profiles:
-      active: pg
+  h2:
+    console:
+      enabled: false

@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "doctors")
+@Table(name = "doctor")
 public class DoctorJpaEntity {
 
     @Id

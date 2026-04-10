@@ -3,7 +3,7 @@ package com.champsoft.healthcaremilestone.modules.appointment.api;
 import com.champsoft.healthcaremilestone.modules.appointment.domain.exception.AppointmentNotFoundException;
 import com.champsoft.healthcaremilestone.modules.appointment.domain.exception.DoctorNotFoundException;
 import com.champsoft.healthcaremilestone.modules.appointment.domain.exception.TimeSlotConflictException;
-import com.champsoft.healthcaremilestone.shared.web.ApiErrorResponse;
+import com.champsoft.healthcaremilestone.shared.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

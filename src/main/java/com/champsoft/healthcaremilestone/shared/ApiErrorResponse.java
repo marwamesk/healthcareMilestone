@@ -1,4 +1,4 @@
-package com.champsoft.healthcaremilestone.shared.web;
+package com.champsoft.healthcaremilestone.shared;
 
 import java.time.Instant;
 

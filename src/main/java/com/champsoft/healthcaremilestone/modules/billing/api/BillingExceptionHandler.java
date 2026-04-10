@@ -2,12 +2,10 @@ package com.champsoft.healthcaremilestone.modules.billing.api;
 
 import com.champsoft.healthcaremilestone.modules.billing.application.exception.BillingNotFoundException;
 import com.champsoft.healthcaremilestone.modules.billing.application.exception.DuplicateBillingException;
-import com.champsoft.healthcaremilestone.modules.billing.application.service.BillingCrudService;
 import com.champsoft.healthcaremilestone.modules.billing.domain.exception.InvalidBillingException;
 import com.champsoft.healthcaremilestone.modules.billing.domain.exception.InvalidInvoiceItemException;
 import com.champsoft.healthcaremilestone.modules.billing.domain.exception.InvalidStatusRefund;
-import com.champsoft.healthcaremilestone.modules.billing.domain.model.Billing;
-import com.champsoft.healthcaremilestone.shared.web.ApiErrorResponse;
+import com.champsoft.healthcaremilestone.shared.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
