@@ -36,6 +36,7 @@ public class DoctorCrudService {
 
     // FIXED: matches controller
     @Transactional
+
     public Doctor updateInfo(UUID id, String firstName, String lastName, String specialty) {
 
         Doctor doctor = getById(id);

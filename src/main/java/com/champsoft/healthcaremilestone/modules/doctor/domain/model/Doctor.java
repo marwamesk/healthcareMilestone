@@ -23,7 +23,15 @@ public class Doctor {
 
     private final List<DoctorAvailability> availabilities = new ArrayList<>();
 
-    public Doctor(UUID id, String firstName, String lastName, String specialty, LocalDate licenseExpiryDate) {
+    public Doctor(UUID id,
+                  String firstName,
+                  String lastName,
+                  String specialty,
+                  LocalDate licenseExpiryDate) {
+
+        if (id == null) throw new IllegalArgumentException("id required");
+        if (licenseExpiryDate == null) throw new IllegalArgumentException("license required");
+
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,56 +40,29 @@ public class Doctor {
         this.active = true;
     }
 
-    public Doctor(UUID id, String firstName, LocalDate licenseExpiryDate) {
-        this.id = id;
-        this.firstName = firstName;
-        this.licenseExpiryDate = licenseExpiryDate;
-        this.active = true;
-        this.lastName = firstName;
-        this.specialty = firstName;
+    public void updateInfo(String firstName, String lastName, String specialty) {
+        if (firstName != null) this.firstName = firstName;
+        if (lastName != null) this.lastName = lastName;
+        if (specialty != null) this.specialty = specialty;
     }
 
-
-    public void addAvailability(DoctorAvailability availability) {
-        availabilities.add(availability);
+    public void updateLicense(LocalDate expiryDate) {
+        if (expiryDate == null) throw new IllegalArgumentException("expiry required");
+        this.licenseExpiryDate = expiryDate;
     }
 
-    public boolean isAvailable(LocalDateTime dateTime) {
-        return availabilities.stream().noneMatch(a -> a.matches(dateTime));
-    }
+    public void activate() { this.active = true; }
 
-
+    public void deactivate() { this.active = false; }
 
     public boolean isLicenseValid() {
-        return licenseExpiryDate != null && !licenseExpiryDate.isBefore(LocalDate.now());
+        return licenseExpiryDate != null &&
+                !licenseExpiryDate.isBefore(LocalDate.now());
     }
 
     public void validateLicense() {
         if (!isLicenseValid()) {
-            throw new DoctorLicenseExpiredException("Doctor license expired: " + firstName + " " + lastName);
+            throw new DoctorLicenseExpiredException("License expired");
         }
-    }
-
-
-
-    public void updateInfo(String firstName, String lastName, String specialty) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.specialty = specialty;
-    }
-
-    public void updateLicense(LocalDate expiryDate) {
-        if (expiryDate == null) {
-            throw new RuntimeException("Expiry date cannot be null");
-        }
-        this.licenseExpiryDate = expiryDate;
-    }
-
-    public void activate() {
-        this.active = true;
-    }
-
-    public void deactivate() {
-        this.active = false;
     }
 }
