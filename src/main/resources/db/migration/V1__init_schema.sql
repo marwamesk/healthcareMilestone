@@ -34,11 +34,23 @@ CREATE TABLE patient (
 );
 
 INSERT INTO patient VALUES
-                        ('p1','John','Doe','123','john@mail.com','2000-01-01','ACTIVE','CA','Montreal','H1A1A1','Main',10,'HC1','2027-01-01'),
-                        ('p2','Anna','Smith','124','anna@mail.com','1998-02-02','ACTIVE','CA','Toronto','H2B2B2','King',20,'HC2','2026-01-01'),
-                        ('p3','Mike','Brown','125','mike@mail.com','1995-03-03','ACTIVE','CA','Vancouver','H3C3C3','West',30,'HC3','2026-06-01'),
-                        ('p4','Sara','Lee','126','sara@mail.com','1997-04-04','INACTIVE','CA','Ottawa','H4D4D4','East',40,'HC4','2025-12-01'),
-                        ('p5','Tom','White','127','tom@mail.com','1999-05-05','ACTIVE','CA','Quebec','H5E5E5','North',50,'HC5','2027-03-01');
+                        ('p1','John','Doe','123','john@mail.com','2000-01-01','ACTIVE','CA','Montreal','H1A1A1','Main',10,'DOES90101516','2027-01-01'),
+                        ('p2','Anna','Smith','124','anna@mail.com','1998-02-02','ACTIVE','CA','Toronto','H2B2B2','King',20,'SMIT89761235','2029-01-01'),
+                        ('p3','Mike','Brown','125','mike@mail.com','1995-03-03','ACTIVE','CA','Vancouver','H3C3C3','West',30,'BROW33329867','2026-06-01'),
+                        ('p4','Sara','Lee','126','sara@mail.com','1997-04-04','INACTIVE','CA','Ottawa','H4D4D4','East',40,'LEEM44569187','2028-12-01'),
+                        ('p5','Tom','White','127','tom@mail.com','1999-05-05','ACTIVE','CA','Quebec','H5E5E5','North',50,'WHIT55680198','2027-03-01');
+
+UPDATE patient
+SET status = 'STABLE'
+WHERE status = 'ACTIVE';
+
+UPDATE patient
+SET status = 'STABLE'
+WHERE status = 'INACTIVE';
+
+UPDATE patient
+SET status = 'CRITICAL'
+WHERE id = 'p2';
 
 CREATE TABLE appointment (
                              id VARCHAR(255) PRIMARY KEY,
@@ -73,5 +85,15 @@ INSERT INTO billing VALUES
                         ('b1','p1','a1',120.5,'Consultation'),
                         ('b2','p2','a2',200.0,'Cardio check'),
                         ('b3','p3','a3',180.0,'Neuro exam'),
-                        ('b4','p4','a4',0.0,'Cancelled visit'),
+                        ('b4','p4','a4',120.0,'Consultation'),
                         ('b5','p5','a5',150.0,'General checkup');
+
+ALTER TABLE billing ADD due_date DATE;
+ALTER TABLE billing ADD payment_method VARCHAR(50);
+ALTER TABLE billing ADD status VARCHAR(50);
+
+UPDATE billing SET due_date = '2026-04-20', payment_method = 'CASH', status = 'PENDING' WHERE id = 'b1';
+UPDATE billing SET due_date = '2026-04-21', payment_method = 'CREDIT_CARD', status = 'PAID' WHERE id = 'b2';
+UPDATE billing SET due_date = '2026-04-22', payment_method = 'INSURANCE', status = 'PENDING' WHERE id = 'b3';
+UPDATE billing SET due_date = '2026-04-23', payment_method = 'CASH', status = 'PENDING' WHERE id = 'b4';
+UPDATE billing SET due_date = '2026-04-24', payment_method = 'CREDIT_CARD', status = 'PENDING' WHERE id = 'b5';

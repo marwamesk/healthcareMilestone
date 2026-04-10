@@ -1,14 +1,14 @@
-package com.champsoft.healthcaremilestone.modules.appointment.api.mapper;
+package com.champsoft.healthcaremilestone.modules.appointment.api;
 
 import com.champsoft.healthcaremilestone.modules.appointment.api.dto.*;
+import com.champsoft.healthcaremilestone.modules.appointment.api.mapper.AppointmentRepresentationAssembler;
 import com.champsoft.healthcaremilestone.modules.appointment.application.service.AppointmentOrchestrator;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/appointments")
+@RequestMapping("/api/appointments")
 public class AppointmentController {
 
     private final AppointmentOrchestrator orchestrator;

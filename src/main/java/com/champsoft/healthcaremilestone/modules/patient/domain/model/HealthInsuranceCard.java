@@ -15,30 +15,24 @@ public class HealthInsuranceCard {
     private LocalDate expiryDate;
 
     public HealthInsuranceCard(String card, LocalDate expiryDate) {
-
-
         if (card == null || card.isBlank()) {
             throw new InvalidInsuranceCardNumber(
                     "Health insurance card cannot be null or empty"
             );
         }
-
-        // normalize input
         String cleaned = card.replaceAll("\\s+", "").toUpperCase();
 
-        // validate format: XXXX12345678
         if (!cleaned.matches("^[A-Z]{4}\\d{8}$")) {
             throw new InvalidInsuranceCardNumber(
                     "Health insurance card invalid, correct format: BASM 4567 8907"
             );
         }
 
-        // format nicely: XXXX 1234 5678
+
         String formatted = cleaned.substring(0, 4) + " " +
                 cleaned.substring(4, 8) + " " +
                 cleaned.substring(8, 12);
 
-        // expiry validation
         if (expiryDate == null) {
             throw new ExpiredHealthInsuranceCardException(
                     "Expiry date cannot be null"
