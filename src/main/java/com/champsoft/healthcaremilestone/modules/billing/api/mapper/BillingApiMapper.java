@@ -7,7 +7,7 @@ public class BillingApiMapper {
 
     public static BillingResponse toResponse(Billing b){
         return new BillingResponse(
-                b.id().value(),
+                b.idValue(), // FORCE STRING (NOT record)
                 b.dueDate().dueDate(),
                 b.paymentMethod(),
                 b.status(),
@@ -15,5 +15,4 @@ public class BillingApiMapper {
                 b.invoice().getAmountItem()
         );
     }
-
 }

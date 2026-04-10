@@ -1,33 +1,33 @@
 package com.champsoft.healthcaremilestone.modules.billing.infrastructure.persistence;
 
 import com.champsoft.healthcaremilestone.modules.billing.domain.model.BillingStatus;
-import com.champsoft.healthcaremilestone.modules.billing.domain.model.DueDate;
-import com.champsoft.healthcaremilestone.modules.billing.domain.model.InvoiceItem;
 import com.champsoft.healthcaremilestone.modules.billing.domain.model.PaymentMethod;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
-@Table(name="billing")
+@Table(name = "billing")
 public class BillingJpaEntity {
 
     @Id
-    public String id;
+    private String id;   // IMPORTANT: STRING ONLY (NOT BillingId)
 
-    @Column(nullable = false)
-    public LocalDate dueDate;
+    private LocalDate dueDate;
 
-    @Column(nullable = false)
-    public PaymentMethod paymentMethod;
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
 
-    @Embedded
-    public BillingInvoiceItemEmbeddable invoice;
+    @Enumerated(EnumType.STRING)
+    private BillingStatus status;
 
-    @Column(nullable = false)
-    public BillingStatus status;
+    private String description;
 
-
+    private double amount;
 }

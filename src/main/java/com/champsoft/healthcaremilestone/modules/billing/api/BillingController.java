@@ -35,8 +35,12 @@ public class BillingController {
 
     @GetMapping
     public ResponseEntity<?> list(){
-        List<?> data = service.list().stream().map(BillingApiMapper::toResponse).toList();
-        return ResponseEntity.ok(data);
+        return ResponseEntity.ok(
+                service.list()
+                        .stream()
+                        .map(BillingApiMapper::toResponse)
+                        .toList()
+        );
     }
 
     @PutMapping("/{id}")
@@ -45,7 +49,7 @@ public class BillingController {
         return ResponseEntity.ok(BillingApiMapper.toResponse(v));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id){
         service.delete(id);
         return ResponseEntity.noContent().build();

@@ -8,58 +8,37 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
 @Component
 public class JpaBillingRepositoryAdapter implements BillingRepositoryPort {
 
-    private final SpringDataBillingRepository jpa;
+    private final SpringDataBillingRepository repo;
 
-    public JpaBillingRepositoryAdapter(SpringDataBillingRepository jpa) {
-        this.jpa = jpa;
+    public JpaBillingRepositoryAdapter(SpringDataBillingRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public Billing save(Billing billing){
-        var e = toEntity(billing);
-        jpa.save(e);
-        return billing;
+    public Billing save(Billing billing) {
+        BillingJpaEntity entity = BillingMapper.toEntity(billing);
+        return BillingMapper.toDomain(repo.save(entity));
     }
 
     @Override
-    public Optional<Billing> findById(BillingId id){
-        return jpa.findById(id.value()).map(this::toDomain);
+    public Optional<Billing> findById(BillingId id) {
+        return repo.findById(id.value())
+                .map(BillingMapper::toDomain);
     }
 
-
     @Override
-    public List<Billing> findAll(){
-        return jpa.findAll().stream().map(this::toDomain).toList();
+    public List<Billing> findAll() {
+        return repo.findAll()
+                .stream()
+                .map(BillingMapper::toDomain)
+                .toList();
     }
 
     @Override
     public void deleteById(BillingId id) {
-        jpa.deleteById(id.value());
-
+        repo.deleteById(id.value());
     }
-
-    private BillingJpaEntity toEntity(Billing b) {
-        var e = new BillingJpaEntity();
-        e.id = b.id().toString();
-        e.dueDate = b.dueDate().dueDate();
-        e.paymentMethod = b.paymentMethod();
-        e.status = b.status();
-        e.invoice = new BillingInvoiceItemEmbeddable(
-                b.invoice().description(),
-                b.invoice().getAmountItem()
-
-        );
-
-        return e;
-    }
-
-    private Billing toDomain(BillingJpaEntity e){
-        var billing = new Billing(BillingId.of(e.id),new InvoiceItem(e.invoice.description,e.invoice.amount),new DueDate(e.dueDate),e.paymentMethod,e.status);
-        return billing;
-    }
-
 }

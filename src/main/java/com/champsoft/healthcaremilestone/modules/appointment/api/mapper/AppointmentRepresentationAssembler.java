@@ -5,13 +5,18 @@ import com.champsoft.healthcaremilestone.modules.appointment.domain.model.Appoin
 
 public class AppointmentRepresentationAssembler {
 
-    public static AppointmentResponse toResponse(Appointment appt) {
-        AppointmentResponse res = new AppointmentResponse();
-        res.id = appt.id().value();
-        res.doctorId = appt.doctorIdValue();
-        res.patientId = appt.patientIdValue();
-        res.status = appt.status().name();
-        res.time = appt.timeValue();
-        return res;
+    public static AppointmentResponse toResponse(Appointment a) {
+        AppointmentResponse r = new AppointmentResponse();
+
+        r.id = a.id().value();
+
+        // FIX: use correct domain methods
+        r.doctorId = a.doctorId().value();
+        r.patientId = a.patientId().value();
+
+        r.status = a.status().name();
+        r.time = a.time().value();
+
+        return r;
     }
 }

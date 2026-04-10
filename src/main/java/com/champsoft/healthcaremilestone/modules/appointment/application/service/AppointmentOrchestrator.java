@@ -49,21 +49,26 @@ public class AppointmentOrchestrator {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
     }
+    @Transactional
+    public Appointment complete(String id) {
+
+        Appointment appt = getById(id);
+
+        appt.complete();
+
+        repository.save(appt);
+
+        billingPort.createBill(appt.id().value(), appt.patientIdValue());
+
+        return appt;
+    }
 
     @Transactional(readOnly = true) // ⚡ optimized read
     public List<Appointment> getAll() {
         return repository.findAll();
     }
 
-    public Appointment complete(String id) {
-        Appointment appt = getById(id);
-        appt.complete();
 
-        repository.save(appt);
-        billingPort.createBill(appt.id().value(), appt.patientIdValue());
-
-        return appt;
-    }
 
     public void delete(String id) {
         repository.deleteById(id);

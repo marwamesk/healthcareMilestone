@@ -2,5 +2,6 @@ package com.champsoft.healthcaremilestone.modules.billing.infrastructure.persist
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SpringDataBillingRepository extends JpaRepository<BillingJpaEntity,String> {
+public interface SpringDataBillingRepository
+        extends JpaRepository<BillingJpaEntity, String> {
 }

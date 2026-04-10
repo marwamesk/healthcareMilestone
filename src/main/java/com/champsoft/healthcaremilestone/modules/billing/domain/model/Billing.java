@@ -27,6 +27,9 @@ public class Billing {
     public BillingId id() {
         return id;
     }
+    public String idValue() {
+        return id.value();
+    }
 
     public DueDate dueDate() {
         return dueDate;

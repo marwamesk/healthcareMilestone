@@ -8,6 +8,5 @@ public class AppointmentResponse {
     public String patientId;
     public String status;
     public LocalDateTime time;
-    public double amount;
-    public String description;
+
 }

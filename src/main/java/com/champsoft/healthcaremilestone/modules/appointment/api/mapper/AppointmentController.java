@@ -2,6 +2,7 @@ package com.champsoft.healthcaremilestone.modules.appointment.api.mapper;
 
 import com.champsoft.healthcaremilestone.modules.appointment.api.dto.*;
 import com.champsoft.healthcaremilestone.modules.appointment.application.service.AppointmentOrchestrator;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,10 +36,7 @@ public class AppointmentController {
         return AppointmentRepresentationAssembler.toResponse(orchestrator.getById(id));
     }
 
-    @PostMapping("/{id}/complete")
-    public AppointmentResponse complete(@PathVariable String id) {
-        return AppointmentRepresentationAssembler.toResponse(orchestrator.complete(id));
-    }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
@@ -58,6 +56,12 @@ public class AppointmentController {
 
         return AppointmentRepresentationAssembler.toResponse(
                 orchestrator.update(id, req)
+        );
+    }
+    @PutMapping("/{id}/complete")
+    public AppointmentResponse complete(@PathVariable String id) {
+        return AppointmentRepresentationAssembler.toResponse(
+                orchestrator.complete(id)
         );
     }
 }
