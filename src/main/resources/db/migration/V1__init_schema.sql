@@ -74,7 +74,7 @@ CREATE TABLE billing (
                          id VARCHAR(255) PRIMARY KEY,
                          patient_id VARCHAR(255) NOT NULL,
                          appointment_id VARCHAR(255),
-                         amount DOUBLE,
+                         amount DOUBLE precision,
                          description VARCHAR(255),
 
                          FOREIGN KEY (patient_id) REFERENCES patient(id),
